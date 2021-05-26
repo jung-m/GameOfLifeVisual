@@ -1,0 +1,25 @@
+.overlay {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 2vmin;
+  margin: 2vmin;
+  top: 80%;
+  left: 50%;
+  border-radius: 20px;
+  transform: translate(-50%, -50%);
+  width: 50vw;
+  height: 10vh;
+  background-color: lightgray;
+}
+
+.baseButton {
+  width: 5vw;
+  height: 5vh;
+  outline: none;
+  border: none;
+  border-radius: 10px;
+  background-color: lightblue;
+}
