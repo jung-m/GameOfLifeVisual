@@ -1,5 +1,3 @@
-//import "./overlaystyle.css"
-
 const SCREEN_WIDTH = window.innerWidth;
 const SCREEN_HEIGHT = window.innerHeight;
 
@@ -10,10 +8,12 @@ let pauseButton;
 let clearButton;
 let overlay;
 
-var squares;
+var squares = [];
+var aliveNextStep = [];
 
 function setup() {
   createCanvas(window.innerWidth, window.innerHeight);
+  background(0)
 
   overlay = createElement("overlay");
   overlay.class("overlay");
@@ -30,35 +30,46 @@ function setup() {
   clearButton.class("baseButton");
   clearButton.parent(overlay);
 
-
-  createSquareArray()
-  console.log(squares.length)
-  console.log(squares[2].length)
-
   let firstCoorCount = 0;
   let secondCoorCount = 0;
   for (let i = 0; i < SCREEN_WIDTH; i += SQUARE_SIDE_SIZE) {
+    secondCoorCount = 0;
+    squares[firstCoorCount] = [];
     for (let j = 0; j < SCREEN_HEIGHT; j += SQUARE_SIDE_SIZE) {
-      let s = square(i, j, SQUARE_SIDE_SIZE);
-      squares[firstCoorCount][secondCoorCount] = s;
+      squares[firstCoorCount][secondCoorCount] = new Cell(
+        i,
+        j,
+        SQUARE_SIDE_SIZE
+      );
       secondCoorCount++;
     }
     firstCoorCount++;
   }
 }
 
-function draw() {
-  if (mouseIsPressed) {
-    fill(0);
-  } else {
-    fill(255);
+function mousePressed() {
+  let firstCor = Math.floor(mouseX / SQUARE_SIDE_SIZE);
+  let secondCor = Math.floor(mouseY / SQUARE_SIDE_SIZE);
+  if (squares[firstCor][secondCor]) {
+    squares[firstCor][secondCor].clicked();
   }
-  //ellipse(mouseX, mouseY, 80, 80);
 }
 
-function createSquareArray() {
-  squares = new Array(Math.floor(SCREEN_WIDTH / SQUARE_SIDE_SIZE) + 1);
-  for (let i = 0; i < squares.length; i++) {
-    squares[i] = new Array(Math.floor(SCREEN_HEIGHT / SQUARE_SIDE_SIZE) + 1);
+function draw() {
+  if (mouseIsPressed) {
+    let firstCor = Math.floor(mouseX / SQUARE_SIDE_SIZE);
+    let secondCor = Math.floor(mouseY / SQUARE_SIDE_SIZE);
+    if (squares[firstCor][secondCor]) {
+      squares[firstCor][secondCor].clicked();
+    }
   }
+
+  squares.forEach((element) => {
+    element.forEach((el) => {
+      if (el.isAlive) {
+        el.display();
+      }
+    });
+  });
 }
+
