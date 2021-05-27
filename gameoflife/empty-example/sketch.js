@@ -11,9 +11,11 @@ let overlay;
 var squares = [];
 var aliveNextStep = [];
 
+var gameRunning = false;
+
 function setup() {
   createCanvas(window.innerWidth, window.innerHeight);
-  background(0)
+  background(0);
 
   overlay = createElement("overlay");
   overlay.class("overlay");
@@ -48,20 +50,26 @@ function setup() {
 }
 
 function mousePressed() {
-  let firstCor = Math.floor(mouseX / SQUARE_SIDE_SIZE);
-  let secondCor = Math.floor(mouseY / SQUARE_SIDE_SIZE);
-  if (squares[firstCor][secondCor]) {
-    squares[firstCor][secondCor].clicked();
-  }
-}
-
-function draw() {
-  if (mouseIsPressed) {
+  if (gameRunning === false) {
     let firstCor = Math.floor(mouseX / SQUARE_SIDE_SIZE);
     let secondCor = Math.floor(mouseY / SQUARE_SIDE_SIZE);
     if (squares[firstCor][secondCor]) {
       squares[firstCor][secondCor].clicked();
     }
+  }
+}
+
+function draw() {
+  if (mouseIsPressed && gameRunning === false) {
+    let firstCor = Math.floor(mouseX / SQUARE_SIDE_SIZE);
+    let secondCor = Math.floor(mouseY / SQUARE_SIDE_SIZE);
+    if (squares[firstCor][secondCor]) {
+      squares[firstCor][secondCor].clicked();
+    }
+  }
+
+  if (gameRunning === true) {
+    oneStep()
   }
 
   squares.forEach((element) => {
@@ -73,3 +81,58 @@ function draw() {
   });
 }
 
+function oneStep() {
+  for (let i = 0; i < squares.length; i++) {
+    aliveNextStep[i] = [];
+    for (let j = 0; j < squares[i].length; j++) {
+      let livingNeighborCount = getLivingNeighborCount(i, j);
+      if (squares[i][j].isAlive === false && livingNeighborCount === 3) {
+        aliveNextStep[i][j] = true;
+      } else if (squares[i][j].isAlive === true && livingNeighborCount < 2) {
+        aliveNextStep[i][j] = false;
+      } else if (squares[i][j].isAlive === true && livingNeighborCount > 3) {
+        aliveNextStep[i][j] = false;
+      }
+      // else default case: has 2 or 3 alive neighbors and is alive itself --> kept alive in next step
+    }
+  }
+
+  for (let i = 0; i < squares.length; i++) {
+    for (let j = 0; j < squares[i].length; j++) {
+      if (aliveNextStep[i][j] === true) {
+        squares[i][j].setAlive();
+      } else {
+        squares[i][j].kill();
+      }
+    }
+  }
+}
+
+function getLivingNeighborCount(i, j) {
+  let livingCount = 0;
+  for (let k = i - 1; k <= i + 1; k++) {
+    for (let l = j - 1; l <= j + 1; l++) {
+      if (squares[k][l] && (k !== i || l !== j) && squares[k][l].isAlive) {
+        livingCount++;
+      }
+    }
+  }
+  return livingCount;
+}
+
+function startGame() {
+  gameRunning = true;
+}
+
+function pauseGame() {
+  gameRunning = false
+}
+
+function clearField() {
+  pauseGame()
+  squares.forEach((element) => {
+    element.forEach((el) => {
+      el.kill()
+    });
+  });
+}
