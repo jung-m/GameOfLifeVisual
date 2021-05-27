@@ -23,14 +23,17 @@ function setup() {
   startButton = createButton("Start");
   startButton.class("baseButton");
   startButton.parent(overlay);
+  startButton.mousePressed(startGame);
 
   pauseButton = createButton("Pause");
   pauseButton.class("baseButton");
   pauseButton.parent(overlay);
+  pauseButton.mousePressed(pauseGame);
 
   clearButton = createButton("Clear");
   clearButton.class("baseButton");
   clearButton.parent(overlay);
+  clearButton.mousePressed(clearField);
 
   let firstCoorCount = 0;
   let secondCoorCount = 0;
@@ -47,6 +50,7 @@ function setup() {
     }
     firstCoorCount++;
   }
+  console.log(squares);
 }
 
 function mousePressed() {
@@ -69,16 +73,16 @@ function draw() {
   }
 
   if (gameRunning === true) {
-    oneStep()
+    oneStep();
   }
 
-  squares.forEach((element) => {
-    element.forEach((el) => {
-      if (el.isAlive) {
-        el.display();
-      }
-    });
-  });
+  // squares.forEach((element) => {
+  //   element.forEach((el) => {
+  //     if (el.isAlive) {
+  //       el.display();
+  //     }
+  //   });
+  // });
 }
 
 function oneStep() {
@@ -87,6 +91,12 @@ function oneStep() {
     for (let j = 0; j < squares[i].length; j++) {
       let livingNeighborCount = getLivingNeighborCount(i, j);
       if (squares[i][j].isAlive === false && livingNeighborCount === 3) {
+        aliveNextStep[i][j] = true;
+      } else if (
+        squares[i][j].isAlive === true &&
+        livingNeighborCount >= 2 &&
+        livingNeighborCount <= 3
+      ) {
         aliveNextStep[i][j] = true;
       } else if (squares[i][j].isAlive === true && livingNeighborCount < 2) {
         aliveNextStep[i][j] = false;
@@ -110,9 +120,15 @@ function oneStep() {
 
 function getLivingNeighborCount(i, j) {
   let livingCount = 0;
-  for (let k = i - 1; k <= i + 1; k++) {
-    for (let l = j - 1; l <= j + 1; l++) {
-      if (squares[k][l] && (k !== i || l !== j) && squares[k][l].isAlive) {
+  for (let k = i - 1; k <= i + 1 && k < squares.length && k >= 0; k++) {
+    for (let l = j - 1; l <= j + 1 && l < squares[k].length && l >= 0; l++) {
+      if (
+        k >= 0 &&
+        l >= 0 &&
+        squares[k][l] &&
+        (k !== i || l !== j) &&
+        squares[k][l].isAlive
+      ) {
         livingCount++;
       }
     }
@@ -125,14 +141,14 @@ function startGame() {
 }
 
 function pauseGame() {
-  gameRunning = false
+  gameRunning = false;
 }
 
 function clearField() {
-  pauseGame()
+  pauseGame();
   squares.forEach((element) => {
     element.forEach((el) => {
-      el.kill()
+      el.kill();
     });
   });
 }

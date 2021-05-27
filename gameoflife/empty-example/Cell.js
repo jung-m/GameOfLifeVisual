@@ -10,15 +10,20 @@ function Cell(x, y, sizeOfSide) {
   };
 
   this.clicked = function () {
-    this.col = color(255, 255, 255);
     this.setAlive();
   };
 
   this.setAlive = function () {
     this.isAlive = true;
+    this.col = color(255, 255, 255);
+    fill(this.col);
+    square(this.upperLeftX, this.upperLeftY, sizeOfSide);
   };
 
   this.kill = function () {
     this.isAlive = false;
+    this.col = color(0, 0, 0);
+    fill(this.col);
+    square(this.upperLeftX, this.upperLeftY, sizeOfSide);
   };
 }
