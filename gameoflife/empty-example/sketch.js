@@ -13,6 +13,15 @@ var aliveNextStep = [];
 
 var gameRunning = false;
 
+const INITIAL_SMALLEST = SCREEN_WIDTH * 10;
+const INITIAL_BIGGEST = 0;
+var smallestAliveX = INITIAL_SMALLEST;
+var smallestAliveY = INITIAL_SMALLEST;
+var biggestAliveX = INITIAL_BIGGEST;
+var biggestAliveY = INITIAL_BIGGEST;
+
+const MARGIN_AROUND_SMALLEST_BIGGEST = 10;
+
 function setup() {
   createCanvas(window.innerWidth, window.innerHeight);
   background(0);
@@ -53,15 +62,15 @@ function setup() {
   console.log(squares);
 }
 
-function mousePressed() {
-  if (gameRunning === false) {
-    let firstCor = Math.floor(mouseX / SQUARE_SIDE_SIZE);
-    let secondCor = Math.floor(mouseY / SQUARE_SIDE_SIZE);
-    if (squares[firstCor][secondCor]) {
-      squares[firstCor][secondCor].clicked();
-    }
-  }
-}
+// function mousePressed() {
+//   if (gameRunning === false) {
+//     let firstCor = Math.floor(mouseX / SQUARE_SIDE_SIZE);
+//     let secondCor = Math.floor(mouseY / SQUARE_SIDE_SIZE);
+//     if (squares[firstCor][secondCor]) {
+//       squares[firstCor][secondCor].clicked();
+//     }
+//   }
+// }
 
 function draw() {
   if (mouseIsPressed && gameRunning === false) {
@@ -69,6 +78,7 @@ function draw() {
     let secondCor = Math.floor(mouseY / SQUARE_SIDE_SIZE);
     if (squares[firstCor][secondCor]) {
       squares[firstCor][secondCor].clicked();
+      setNewSmallestAndBiggestAlive(firstCor, secondCor);
     }
   }
 
@@ -86,9 +96,18 @@ function draw() {
 }
 
 function oneStep() {
-  for (let i = 0; i < squares.length; i++) {
+  for (
+    let i = Math.max(smallestAliveX - MARGIN_AROUND_SMALLEST_BIGGEST, 0);
+    i < squares.length && i <= biggestAliveX + MARGIN_AROUND_SMALLEST_BIGGEST;
+    i++
+  ) {
     aliveNextStep[i] = [];
-    for (let j = 0; j < squares[i].length; j++) {
+    for (
+      let j = Math.max(smallestAliveY - MARGIN_AROUND_SMALLEST_BIGGEST, 0);
+      j < squares[i].length &&
+      j <= biggestAliveY + MARGIN_AROUND_SMALLEST_BIGGEST;
+      j++
+    ) {
       let livingNeighborCount = getLivingNeighborCount(i, j);
       if (squares[i][j].isAlive === false && livingNeighborCount === 3) {
         aliveNextStep[i][j] = true;
@@ -107,28 +126,41 @@ function oneStep() {
     }
   }
 
-  for (let i = 0; i < squares.length; i++) {
-    for (let j = 0; j < squares[i].length; j++) {
+  var tempsmallestAliveX = smallestAliveX;
+  var tempsmallestAliveY = smallestAliveY;
+  var tempbiggestAliveX = biggestAliveX;
+  var tempbiggestAliveY = biggestAliveY;
+  for (
+    let i = Math.max(smallestAliveX - MARGIN_AROUND_SMALLEST_BIGGEST, 0);
+    i < squares.length && i <= biggestAliveX + MARGIN_AROUND_SMALLEST_BIGGEST;
+    i++
+  ) {
+    for (
+      let j = Math.max(smallestAliveY - MARGIN_AROUND_SMALLEST_BIGGEST, 0);
+      j < squares[i].length &&
+      j <= biggestAliveY + MARGIN_AROUND_SMALLEST_BIGGEST;
+      j++
+    ) {
       if (aliveNextStep[i][j] === true) {
         squares[i][j].setAlive();
+        tempsmallestAliveX = Math.min(i, smallestAliveX);
+        tempsmallestAliveY = Math.min(j, smallestAliveY);
+        tempbiggestAliveX = Math.max(i, biggestAliveX);
+        tempbiggestAliveY = Math.max(j, biggestAliveY);
       } else {
         squares[i][j].kill();
       }
     }
   }
+  setNewSmallestAndBiggestAlive(tempsmallestAliveX, tempsmallestAliveY);
+  setNewSmallestAndBiggestAlive(tempbiggestAliveX, tempbiggestAliveY);
 }
 
 function getLivingNeighborCount(i, j) {
   let livingCount = 0;
   for (let k = i - 1; k <= i + 1 && k < squares.length && k >= 0; k++) {
     for (let l = j - 1; l <= j + 1 && l < squares[k].length && l >= 0; l++) {
-      if (
-        k >= 0 &&
-        l >= 0 &&
-        squares[k][l] &&
-        (k !== i || l !== j) &&
-        squares[k][l].isAlive
-      ) {
+      if (squares[k][l] && (k !== i || l !== j) && squares[k][l].isAlive) {
         livingCount++;
       }
     }
@@ -151,4 +183,19 @@ function clearField() {
       el.kill();
     });
   });
+  setInitialBorders()
+}
+
+function setInitialBorders() {
+  smallestAliveX = INITIAL_SMALLEST;
+  smallestAliveY = INITIAL_SMALLEST;
+  biggestAliveX = INITIAL_BIGGEST;
+  biggestAliveY = INITIAL_BIGGEST;
+}
+
+function setNewSmallestAndBiggestAlive(i, j) {
+  smallestAliveX = Math.min(i, smallestAliveX);
+  smallestAliveY = Math.min(j, smallestAliveY);
+  biggestAliveX = Math.max(i, biggestAliveX);
+  biggestAliveY = Math.max(j, biggestAliveY);
 }
