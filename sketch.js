@@ -1,7 +1,7 @@
 const SCREEN_WIDTH = window.innerWidth;
 const SCREEN_HEIGHT = window.innerHeight;
 
-const SQUARE_SIDE_SIZE = SCREEN_WIDTH / 200;
+const SQUARE_SIDE_SIZE = SCREEN_WIDTH / 150;
 
 let startButton;
 let pauseButton;
@@ -11,7 +11,10 @@ let overlay;
 var squares = [];
 var aliveNextStep = [];
 
+var specialFormations = [];
+
 var gameRunning = false;
+var drawingGlider = false;
 
 const INITIAL_SMALLEST = SCREEN_WIDTH * 10;
 const INITIAL_BIGGEST = 0;
@@ -44,6 +47,16 @@ function setup() {
   clearButton.parent(overlay);
   clearButton.mousePressed(clearField);
 
+  fillRandomButton = createButton("Fill the field randomly");
+  fillRandomButton.class("baseButton");
+  fillRandomButton.parent(overlay);
+  fillRandomButton.mousePressed(initializeRandom);
+
+  gliderDrawButton = createButton("Toggle glider draw");
+  gliderDrawButton.class("baseButton");
+  gliderDrawButton.parent(overlay);
+  gliderDrawButton.mousePressed(toggleGliderDraw);
+
   let firstCoorCount = 0;
   let secondCoorCount = 0;
   for (let i = 0; i < SCREEN_WIDTH; i += SQUARE_SIDE_SIZE) {
@@ -60,6 +73,10 @@ function setup() {
     firstCoorCount++;
   }
   console.log(squares);
+
+
+  let glider = new Glider(10, 10, squares)
+  glider.display()
 }
 
 // function mousePressed() {
@@ -73,9 +90,17 @@ function setup() {
 // }
 
 function draw() {
-  if (mouseIsPressed && gameRunning === false) {
-    let firstCor = Math.floor(mouseX / SQUARE_SIDE_SIZE);
+  let firstCor = Math.floor(mouseX / SQUARE_SIDE_SIZE);
     let secondCor = Math.floor(mouseY / SQUARE_SIDE_SIZE);
+  if (mouseIsPressed && gameRunning === false && drawingGlider === true) {
+    if (squares[firstCor][secondCor] && firstCor > 5 && secondCor > 5 && firstCor < squares.length - 5 && secondCor < squares[firstCor].length - 5) {
+      let glider = new Glider(firstCor, secondCor, squares)
+      specialFormations.push(glider)
+      glider.display()
+      setNewSmallestAndBiggestAlive(firstCor - 5, secondCor - 5);
+      setNewSmallestAndBiggestAlive(firstCor + 5, secondCor + 5);
+    }
+  } else if (mouseIsPressed && gameRunning === false) {
     if (squares[firstCor][secondCor]) {
       squares[firstCor][secondCor].clicked();
       setNewSmallestAndBiggestAlive(firstCor, secondCor);
@@ -122,7 +147,6 @@ function oneStep() {
       } else if (squares[i][j].isAlive === true && livingNeighborCount > 3) {
         aliveNextStep[i][j] = false;
       }
-      // else default case: has 2 or 3 alive neighbors and is alive itself --> kept alive in next step
     }
   }
 
@@ -158,9 +182,14 @@ function oneStep() {
 
 function getLivingNeighborCount(i, j) {
   let livingCount = 0;
-  for (let k = i - 1; k <= i + 1 && k < squares.length && k >= 0; k++) {
-    for (let l = j - 1; l <= j + 1 && l < squares[k].length && l >= 0; l++) {
-      if (squares[k][l] && (k !== i || l !== j) && squares[k][l].isAlive) {
+  for (let k = i - 1; k <= i + 1; k++) {
+    for (let l = j - 1; l <= j + 1; l++) {
+      let p = squares.length
+      m = ((k % p) + p) % p
+
+      p = squares[m].length
+      n = ((l % p) + p) % p
+      if (squares[m][n] && (m !== i || n !== j) && squares[m][n].isAlive) {
         livingCount++;
       }
     }
@@ -186,6 +215,19 @@ function clearField() {
   setInitialBorders()
 }
 
+function initializeRandom() {
+  clearField()
+  for (let k = 0; k < squares.length; k++) {
+    for (let l = 0; l < squares[k].length; l++) {
+      let randChance = Math.random()
+      if(randChance > 0.7) {
+        squares[k][l].setAlive()
+        setNewSmallestAndBiggestAlive(k,l)
+      }
+    }
+  }
+}
+
 function setInitialBorders() {
   smallestAliveX = INITIAL_SMALLEST;
   smallestAliveY = INITIAL_SMALLEST;
@@ -198,4 +240,8 @@ function setNewSmallestAndBiggestAlive(i, j) {
   smallestAliveY = Math.min(j, smallestAliveY);
   biggestAliveX = Math.max(i, biggestAliveX);
   biggestAliveY = Math.max(j, biggestAliveY);
+}
+
+function toggleGliderDraw() {
+  drawingGlider = !drawingGlider
 }

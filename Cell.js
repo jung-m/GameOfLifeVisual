@@ -16,8 +16,7 @@ function Cell(x, y, sizeOfSide) {
   this.setAlive = function () {
     this.isAlive = true;
     this.col = color(255, 255, 255);
-    fill(this.col);
-    square(this.upperLeftX, this.upperLeftY, sizeOfSide);
+    this.display()
   };
 
   this.kill = function () {
