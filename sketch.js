@@ -8,6 +8,7 @@ let pauseButton;
 let clearButton;
 let fillRandomButton;
 let gliderDrawButton;
+let heavyGliderDrawButton;
 let overlay;
 
 var squares = [];
@@ -17,6 +18,9 @@ var specialFormations = [];
 
 var gameRunning = false;
 var drawingGlider = false;
+var drawingHeavyGlider = false;
+
+// var shapeDrawnCurrently = ["CELL": 0, "GLIDER": 1, "HEAVY_GLIDER": 2]
 
 const INITIAL_SMALLEST = SCREEN_WIDTH * 10;
 const INITIAL_BIGGEST = 0;
@@ -59,6 +63,11 @@ function setup() {
   gliderDrawButton.parent(overlay);
   gliderDrawButton.mousePressed(toggleGliderDraw);
 
+  heavyGliderDrawButton = createButton("Toggle heavy glider draw");
+  heavyGliderDrawButton.class("baseButton");
+  heavyGliderDrawButton.parent(overlay);
+  heavyGliderDrawButton.mousePressed(toggleHeavyGliderDraw);
+
   let firstCoorCount = 0;
   let secondCoorCount = 0;
   for (let i = 0; i < SCREEN_WIDTH; i += SQUARE_SIDE_SIZE) {
@@ -79,12 +88,36 @@ function setup() {
 
 function draw() {
   let firstCor = Math.floor(mouseX / SQUARE_SIDE_SIZE);
-    let secondCor = Math.floor(mouseY / SQUARE_SIDE_SIZE);
-  if (mouseIsPressed && gameRunning === false && drawingGlider === true) {
-    if (squares[firstCor][secondCor] && firstCor > 5 && secondCor > 5 && firstCor < squares.length - 5 && secondCor < squares[firstCor].length - 5) {
-      let glider = new Glider(firstCor, secondCor, squares)
-      specialFormations.push(glider)
-      glider.display()
+  let secondCor = Math.floor(mouseY / SQUARE_SIDE_SIZE);
+  if (mouseIsPressed && gameRunning === false && drawingHeavyGlider === true) {
+    if (
+      squares[firstCor][secondCor] &&
+      firstCor > 5 &&
+      secondCor > 5 &&
+      firstCor < squares.length - 10 &&
+      secondCor < squares[firstCor].length - 10
+    ) {
+      let glider = new HeavyGlider(firstCor, secondCor, squares);
+      specialFormations.push(glider);
+      glider.display();
+      setNewSmallestAndBiggestAlive(firstCor - 5, secondCor - 5);
+      setNewSmallestAndBiggestAlive(firstCor + 10, secondCor + 10);
+    }
+  } else if (
+    mouseIsPressed &&
+    gameRunning === false &&
+    drawingGlider === true
+  ) {
+    if (
+      squares[firstCor][secondCor] &&
+      firstCor > 5 &&
+      secondCor > 5 &&
+      firstCor < squares.length - 5 &&
+      secondCor < squares[firstCor].length - 5
+    ) {
+      let glider = new Glider(firstCor, secondCor, squares);
+      specialFormations.push(glider);
+      glider.display();
       setNewSmallestAndBiggestAlive(firstCor - 5, secondCor - 5);
       setNewSmallestAndBiggestAlive(firstCor + 5, secondCor + 5);
     }
@@ -164,11 +197,11 @@ function getLivingNeighborCount(i, j) {
   let livingCount = 0;
   for (let k = i - 1; k <= i + 1; k++) {
     for (let l = j - 1; l <= j + 1; l++) {
-      let p = squares.length
-      m = ((k % p) + p) % p
+      let p = squares.length;
+      m = ((k % p) + p) % p;
 
-      p = squares[m].length
-      n = ((l % p) + p) % p
+      p = squares[m].length;
+      n = ((l % p) + p) % p;
       if (squares[m][n] && (m !== i || n !== j) && squares[m][n].isAlive) {
         livingCount++;
       }
@@ -192,17 +225,17 @@ function clearField() {
       el.kill();
     });
   });
-  setInitialBorders()
+  setInitialBorders();
 }
 
 function initializeRandom() {
-  clearField()
+  clearField();
   for (let k = 0; k < squares.length; k++) {
     for (let l = 0; l < squares[k].length; l++) {
-      let randChance = Math.random()
-      if(randChance > 0.7) {
-        squares[k][l].setAlive()
-        setNewSmallestAndBiggestAlive(k,l)
+      let randChance = Math.random();
+      if (randChance > 0.7) {
+        squares[k][l].setAlive();
+        setNewSmallestAndBiggestAlive(k, l);
       }
     }
   }
@@ -223,14 +256,79 @@ function setNewSmallestAndBiggestAlive(i, j) {
 }
 
 function toggleGliderDraw() {
-  drawingGlider = !drawingGlider
+  drawingGlider = !drawingGlider;
   if (drawingGlider) {
-    gliderDrawButton.style('backgroundImage', "radial-gradient(green, darkgreen)")
-    gliderDrawButton.mouseOver(() => {gliderDrawButton.style('backgroundImage', "radial-gradient(rgb(1, 100, 1), rgb(1, 80, 1))")})
-    gliderDrawButton.mouseOut(() => {gliderDrawButton.style('backgroundImage', "radial-gradient(green, darkgreen)")})
+    gliderDrawButton.style(
+      "backgroundImage",
+      "radial-gradient(green, darkgreen)"
+    );
+    gliderDrawButton.mouseOver(() => {
+      gliderDrawButton.style(
+        "backgroundImage",
+        "radial-gradient(rgb(1, 100, 1), rgb(1, 80, 1))"
+      );
+    });
+    gliderDrawButton.mouseOut(() => {
+      gliderDrawButton.style(
+        "backgroundImage",
+        "radial-gradient(green, darkgreen)"
+      );
+    });
   } else {
-    gliderDrawButton.style('backgroundImage', "radial-gradient(gold, darkgoldenrod)")
-    gliderDrawButton.mouseOver(() => {gliderDrawButton.style('backgroundImage', "radial-gradient(rgb(134, 99, 9), rgb(134, 99, 9))")})
-    gliderDrawButton.mouseOut(() => {gliderDrawButton.style('backgroundImage', "radial-gradient(gold, darkgoldenrod)")})
+    gliderDrawButton.style(
+      "backgroundImage",
+      "radial-gradient(gold, darkgoldenrod)"
+    );
+    gliderDrawButton.mouseOver(() => {
+      gliderDrawButton.style(
+        "backgroundImage",
+        "radial-gradient(rgb(134, 99, 9), rgb(134, 99, 9))"
+      );
+    });
+    gliderDrawButton.mouseOut(() => {
+      gliderDrawButton.style(
+        "backgroundImage",
+        "radial-gradient(gold, darkgoldenrod)"
+      );
+    });
+  }
+}
+
+function toggleHeavyGliderDraw() {
+  drawingHeavyGlider = !drawingHeavyGlider;
+  if (drawingHeavyGlider) {
+    heavyGliderDrawButton.style(
+      "backgroundImage",
+      "radial-gradient(green, darkgreen)"
+    );
+    heavyGliderDrawButton.mouseOver(() => {
+      heavyGliderDrawButton.style(
+        "backgroundImage",
+        "radial-gradient(rgb(1, 100, 1), rgb(1, 80, 1))"
+      );
+    });
+    heavyGliderDrawButton.mouseOut(() => {
+      heavyGliderDrawButton.style(
+        "backgroundImage",
+        "radial-gradient(green, darkgreen)"
+      );
+    });
+  } else {
+    heavyGliderDrawButton.style(
+      "backgroundImage",
+      "radial-gradient(gold, darkgoldenrod)"
+    );
+    heavyGliderDrawButton.mouseOver(() => {
+      heavyGliderDrawButton.style(
+        "backgroundImage",
+        "radial-gradient(rgb(134, 99, 9), rgb(134, 99, 9))"
+      );
+    });
+    heavyGliderDrawButton.mouseOut(() => {
+      heavyGliderDrawButton.style(
+        "backgroundImage",
+        "radial-gradient(gold, darkgoldenrod)"
+      );
+    });
   }
 }
