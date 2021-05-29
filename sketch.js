@@ -20,7 +20,13 @@ var gameRunning = false;
 var drawingGlider = false;
 var drawingHeavyGlider = false;
 
-// var shapeDrawnCurrently = ["CELL": 0, "GLIDER": 1, "HEAVY_GLIDER": 2]
+var shapesToDraw = { CELL: 0, GLIDER: 1, HEAVY_GLIDER: 2 };
+var toggleDrawFunctions = {
+  0: () => {},
+  1: toggleGliderDraw,
+  2: toggleHeavyGliderDraw,
+};
+var shapeCurrentlyDrawn = shapesToDraw.CELL;
 
 const INITIAL_SMALLEST = SCREEN_WIDTH * 10;
 const INITIAL_BIGGEST = 0;
@@ -83,48 +89,49 @@ function setup() {
     }
     firstCoorCount++;
   }
-  console.log(squares);
 }
 
 function draw() {
   let firstCor = Math.floor(mouseX / SQUARE_SIDE_SIZE);
   let secondCor = Math.floor(mouseY / SQUARE_SIDE_SIZE);
-  if (mouseIsPressed && gameRunning === false && drawingHeavyGlider === true) {
-    if (
-      squares[firstCor][secondCor] &&
-      firstCor > 5 &&
-      secondCor > 5 &&
-      firstCor < squares.length - 10 &&
-      secondCor < squares[firstCor].length - 10
-    ) {
-      let glider = new HeavyGlider(firstCor, secondCor, squares);
-      specialFormations.push(glider);
-      glider.display();
-      setNewSmallestAndBiggestAlive(firstCor - 5, secondCor - 5);
-      setNewSmallestAndBiggestAlive(firstCor + 10, secondCor + 10);
-    }
-  } else if (
-    mouseIsPressed &&
-    gameRunning === false &&
-    drawingGlider === true
-  ) {
-    if (
-      squares[firstCor][secondCor] &&
-      firstCor > 5 &&
-      secondCor > 5 &&
-      firstCor < squares.length - 5 &&
-      secondCor < squares[firstCor].length - 5
-    ) {
-      let glider = new Glider(firstCor, secondCor, squares);
-      specialFormations.push(glider);
-      glider.display();
-      setNewSmallestAndBiggestAlive(firstCor - 5, secondCor - 5);
-      setNewSmallestAndBiggestAlive(firstCor + 5, secondCor + 5);
-    }
-  } else if (mouseIsPressed && gameRunning === false) {
-    if (squares[firstCor][secondCor]) {
-      squares[firstCor][secondCor].clicked();
-      setNewSmallestAndBiggestAlive(firstCor, secondCor);
+  if (mouseIsPressed && gameRunning === false) {
+    switch (shapeCurrentlyDrawn) {
+      case shapesToDraw.CELL:
+        if (squares[firstCor][secondCor]) {
+          squares[firstCor][secondCor].clicked();
+          setNewSmallestAndBiggestAlive(firstCor, secondCor);
+        }
+        break;
+      case shapesToDraw.GLIDER:
+        if (
+          squares[firstCor][secondCor] &&
+          firstCor > 5 &&
+          secondCor > 5 &&
+          firstCor < squares.length - 5 &&
+          secondCor < squares[firstCor].length - 5
+        ) {
+          let glider = new Glider(firstCor, secondCor, squares);
+          specialFormations.push(glider);
+          glider.display();
+          setNewSmallestAndBiggestAlive(firstCor - 5, secondCor - 5);
+          setNewSmallestAndBiggestAlive(firstCor + 5, secondCor + 5);
+        }
+        break;
+      case shapesToDraw.HEAVY_GLIDER:
+        if (
+          squares[firstCor][secondCor] &&
+          firstCor > 5 &&
+          secondCor > 5 &&
+          firstCor < squares.length - 10 &&
+          secondCor < squares[firstCor].length - 10
+        ) {
+          let glider = new HeavyGlider(firstCor, secondCor, squares);
+          specialFormations.push(glider);
+          glider.display();
+          setNewSmallestAndBiggestAlive(firstCor - 5, secondCor - 5);
+          setNewSmallestAndBiggestAlive(firstCor + 10, secondCor + 10);
+        }
+        break;
     }
   }
 
@@ -256,8 +263,10 @@ function setNewSmallestAndBiggestAlive(i, j) {
 }
 
 function toggleGliderDraw() {
-  drawingGlider = !drawingGlider;
-  if (drawingGlider) {
+  if (shapeCurrentlyDrawn !== shapesToDraw.GLIDER) {
+    toggleDrawFunctions[shapeCurrentlyDrawn]();
+    shapeCurrentlyDrawn = shapesToDraw.GLIDER;
+
     gliderDrawButton.style(
       "backgroundImage",
       "radial-gradient(green, darkgreen)"
@@ -275,6 +284,9 @@ function toggleGliderDraw() {
       );
     });
   } else {
+
+    shapeCurrentlyDrawn = shapesToDraw.CELL;
+
     gliderDrawButton.style(
       "backgroundImage",
       "radial-gradient(gold, darkgoldenrod)"
@@ -295,8 +307,10 @@ function toggleGliderDraw() {
 }
 
 function toggleHeavyGliderDraw() {
-  drawingHeavyGlider = !drawingHeavyGlider;
-  if (drawingHeavyGlider) {
+  if (shapeCurrentlyDrawn !== shapesToDraw.HEAVY_GLIDER) {
+    toggleDrawFunctions[shapeCurrentlyDrawn]();
+    shapeCurrentlyDrawn = shapesToDraw.HEAVY_GLIDER;
+
     heavyGliderDrawButton.style(
       "backgroundImage",
       "radial-gradient(green, darkgreen)"
@@ -314,6 +328,9 @@ function toggleHeavyGliderDraw() {
       );
     });
   } else {
+
+    shapeCurrentlyDrawn = shapesToDraw.CELL;
+
     heavyGliderDrawButton.style(
       "backgroundImage",
       "radial-gradient(gold, darkgoldenrod)"
