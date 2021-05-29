@@ -9,6 +9,8 @@ let clearButton;
 let fillRandomButton;
 let gliderDrawButton;
 let heavyGliderDrawButton;
+let buttons = []
+
 let overlay;
 
 var squares = [];
@@ -17,8 +19,6 @@ var aliveNextStep = [];
 var specialFormations = [];
 
 var gameRunning = false;
-var drawingGlider = false;
-var drawingHeavyGlider = false;
 
 var shapesToDraw = { CELL: 0, GLIDER: 1, HEAVY_GLIDER: 2 };
 var toggleDrawFunctions = {
@@ -27,6 +27,7 @@ var toggleDrawFunctions = {
   2: toggleHeavyGliderDraw,
 };
 var shapeCurrentlyDrawn = shapesToDraw.CELL;
+var currentlyDrawing = true;
 
 const INITIAL_SMALLEST = SCREEN_WIDTH * 10;
 const INITIAL_BIGGEST = 0;
@@ -48,31 +49,46 @@ function setup() {
   startButton.class("baseButton");
   startButton.parent(overlay);
   startButton.mousePressed(startGame);
+  buttons.push(startButton)
 
   pauseButton = createButton("Pause");
   pauseButton.class("baseButton");
   pauseButton.parent(overlay);
   pauseButton.mousePressed(pauseGame);
+  buttons.push(pauseButton)
 
   clearButton = createButton("Clear");
   clearButton.class("baseButton");
   clearButton.parent(overlay);
   clearButton.mousePressed(clearField);
+  buttons.push(clearButton)
 
   fillRandomButton = createButton("Fill the field randomly");
   fillRandomButton.class("baseButton");
   fillRandomButton.parent(overlay);
   fillRandomButton.mousePressed(initializeRandom);
+  buttons.push(fillRandomButton)
 
   gliderDrawButton = createButton("Toggle glider draw");
   gliderDrawButton.class("baseButton");
   gliderDrawButton.parent(overlay);
   gliderDrawButton.mousePressed(toggleGliderDraw);
+  buttons.push(gliderDrawButton)
 
   heavyGliderDrawButton = createButton("Toggle heavy glider draw");
   heavyGliderDrawButton.class("baseButton");
   heavyGliderDrawButton.parent(overlay);
   heavyGliderDrawButton.mousePressed(toggleHeavyGliderDraw);
+  buttons.push(heavyGliderDrawButton)
+
+  buttons.forEach((el) => {
+    el.mouseOver(() => {
+      currentlyDrawing = false
+    })
+    el.mouseOut(() => {
+      currentlyDrawing = true
+    })
+  })
 
   let firstCoorCount = 0;
   let secondCoorCount = 0;
@@ -94,7 +110,7 @@ function setup() {
 function draw() {
   let firstCor = Math.floor(mouseX / SQUARE_SIDE_SIZE);
   let secondCor = Math.floor(mouseY / SQUARE_SIDE_SIZE);
-  if (mouseIsPressed && gameRunning === false) {
+  if (mouseIsPressed && gameRunning === false && currentlyDrawing === true) {
     switch (shapeCurrentlyDrawn) {
       case shapesToDraw.CELL:
         if (squares[firstCor][secondCor]) {
@@ -272,12 +288,14 @@ function toggleGliderDraw() {
       "radial-gradient(green, darkgreen)"
     );
     gliderDrawButton.mouseOver(() => {
+      currentlyDrawing = false
       gliderDrawButton.style(
         "backgroundImage",
         "radial-gradient(rgb(1, 100, 1), rgb(1, 80, 1))"
       );
     });
     gliderDrawButton.mouseOut(() => {
+      currentlyDrawing = true
       gliderDrawButton.style(
         "backgroundImage",
         "radial-gradient(green, darkgreen)"
@@ -292,12 +310,14 @@ function toggleGliderDraw() {
       "radial-gradient(gold, darkgoldenrod)"
     );
     gliderDrawButton.mouseOver(() => {
+      currentlyDrawing = false
       gliderDrawButton.style(
         "backgroundImage",
         "radial-gradient(rgb(134, 99, 9), rgb(134, 99, 9))"
       );
     });
     gliderDrawButton.mouseOut(() => {
+      currentlyDrawing = true
       gliderDrawButton.style(
         "backgroundImage",
         "radial-gradient(gold, darkgoldenrod)"
@@ -316,12 +336,14 @@ function toggleHeavyGliderDraw() {
       "radial-gradient(green, darkgreen)"
     );
     heavyGliderDrawButton.mouseOver(() => {
+      currentlyDrawing = false
       heavyGliderDrawButton.style(
         "backgroundImage",
         "radial-gradient(rgb(1, 100, 1), rgb(1, 80, 1))"
       );
     });
     heavyGliderDrawButton.mouseOut(() => {
+      currentlyDrawing = true
       heavyGliderDrawButton.style(
         "backgroundImage",
         "radial-gradient(green, darkgreen)"
@@ -336,12 +358,14 @@ function toggleHeavyGliderDraw() {
       "radial-gradient(gold, darkgoldenrod)"
     );
     heavyGliderDrawButton.mouseOver(() => {
+      currentlyDrawing = false
       heavyGliderDrawButton.style(
         "backgroundImage",
         "radial-gradient(rgb(134, 99, 9), rgb(134, 99, 9))"
       );
     });
     heavyGliderDrawButton.mouseOut(() => {
+      currentlyDrawing = true
       heavyGliderDrawButton.style(
         "backgroundImage",
         "radial-gradient(gold, darkgoldenrod)"
