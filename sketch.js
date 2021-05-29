@@ -6,6 +6,8 @@ const SQUARE_SIDE_SIZE = SCREEN_WIDTH / 150;
 let startButton;
 let pauseButton;
 let clearButton;
+let fillRandomButton;
+let gliderDrawButton;
 let overlay;
 
 var squares = [];
@@ -73,21 +75,7 @@ function setup() {
     firstCoorCount++;
   }
   console.log(squares);
-
-
-  let glider = new Glider(10, 10, squares)
-  glider.display()
 }
-
-// function mousePressed() {
-//   if (gameRunning === false) {
-//     let firstCor = Math.floor(mouseX / SQUARE_SIDE_SIZE);
-//     let secondCor = Math.floor(mouseY / SQUARE_SIDE_SIZE);
-//     if (squares[firstCor][secondCor]) {
-//       squares[firstCor][secondCor].clicked();
-//     }
-//   }
-// }
 
 function draw() {
   let firstCor = Math.floor(mouseX / SQUARE_SIDE_SIZE);
@@ -110,14 +98,6 @@ function draw() {
   if (gameRunning === true) {
     oneStep();
   }
-
-  // squares.forEach((element) => {
-  //   element.forEach((el) => {
-  //     if (el.isAlive) {
-  //       el.display();
-  //     }
-  //   });
-  // });
 }
 
 function oneStep() {
@@ -244,4 +224,13 @@ function setNewSmallestAndBiggestAlive(i, j) {
 
 function toggleGliderDraw() {
   drawingGlider = !drawingGlider
+  if (drawingGlider) {
+    gliderDrawButton.style('backgroundImage', "radial-gradient(green, darkgreen)")
+    gliderDrawButton.mouseOver(() => {gliderDrawButton.style('backgroundImage', "radial-gradient(rgb(1, 100, 1), rgb(1, 80, 1))")})
+    gliderDrawButton.mouseOut(() => {gliderDrawButton.style('backgroundImage', "radial-gradient(green, darkgreen)")})
+  } else {
+    gliderDrawButton.style('backgroundImage', "radial-gradient(gold, darkgoldenrod)")
+    gliderDrawButton.mouseOver(() => {gliderDrawButton.style('backgroundImage', "radial-gradient(rgb(134, 99, 9), rgb(134, 99, 9))")})
+    gliderDrawButton.mouseOut(() => {gliderDrawButton.style('backgroundImage', "radial-gradient(gold, darkgoldenrod)")})
+  }
 }
