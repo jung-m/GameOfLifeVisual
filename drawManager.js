@@ -16,25 +16,11 @@ function toggleGliderDraw() {
 
         gliderDrawButton.addClass("activatedButton");
         gliderDrawButton.removeClass("defaultButton");
-
-        gliderDrawButton.mouseOver(() => {
-            currentlyDrawing = false;
-        });
-        gliderDrawButton.mouseOut(() => {
-            currentlyDrawing = true;
-        });
     } else {
         shapeCurrentlyDrawn = shapesToDraw.CELL;
 
         gliderDrawButton.removeClass("activatedButton");
         gliderDrawButton.addClass("defaultButton");
-
-        gliderDrawButton.mouseOver(() => {
-            currentlyDrawing = false;
-        });
-        gliderDrawButton.mouseOut(() => {
-            currentlyDrawing = true;
-        });
     }
 }
 
@@ -45,24 +31,14 @@ function toggleHeavyGliderDraw() {
 
         heavyGliderDrawButton.addClass("activatedButton");
         heavyGliderDrawButton.removeClass("defaultButton");
-
-        heavyGliderDrawButton.mouseOver(() => {
-            currentlyDrawing = false;
-        });
-        heavyGliderDrawButton.mouseOut(() => {
-            currentlyDrawing = true;
-        });
     } else {
         shapeCurrentlyDrawn = shapesToDraw.CELL;
 
         heavyGliderDrawButton.removeClass("activatedButton");
         heavyGliderDrawButton.addClass("defaultButton");
-
-        heavyGliderDrawButton.mouseOver(() => {
-            currentlyDrawing = false;
-        });
-        heavyGliderDrawButton.mouseOut(() => {
-            currentlyDrawing = true;
-        });
     }
+}
+
+function toggleDraw() {
+    currentlyDrawing = !currentlyDrawing;
 }

@@ -19,65 +19,62 @@ function setup() {
     initHud();
 
     buttons.forEach((el) => {
-        el.mouseOver(() => {
-            currentlyDrawing = false;
-        });
-        el.mouseOut(() => {
-            currentlyDrawing = true;
-        });
+        el.mouseOver(toggleDraw);
+        el.mouseOut(toggleDraw);
     });
 
-    initCells()
+    initCells();
 }
 
 function draw() {
-    let firstCor = Math.floor(mouseX / SQUARE_SIDE_SIZE);
-    let secondCor = Math.floor(mouseY / SQUARE_SIDE_SIZE);
-    if (mouseIsPressed && currentlyDrawing === true) {
-        switch (shapeCurrentlyDrawn) {
-            case shapesToDraw.CELL:
-                if (squares[firstCor][secondCor]) {
-                    squares[firstCor][secondCor].clicked();
-                    setNewSmallestAndBiggestAlive(firstCor, secondCor);
-                }
-                break;
-            case shapesToDraw.GLIDER:
-                if (
-                    squares[firstCor][secondCor] &&
-                    firstCor > 5 &&
-                    secondCor > 5 &&
-                    firstCor < squares.length - 5 &&
-                    secondCor < squares[firstCor].length - 5
-                ) {
-                    let glider = new Glider(firstCor, secondCor, squares);
-                    specialFormations.push(glider);
-                    glider.display();
-                    setNewSmallestAndBiggestAlive(firstCor - 5, secondCor - 5);
-                    setNewSmallestAndBiggestAlive(firstCor + 5, secondCor + 5);
-                }
-                break;
-            case shapesToDraw.HEAVY_GLIDER:
-                if (
-                    squares[firstCor][secondCor] &&
-                    firstCor > 5 &&
-                    secondCor > 5 &&
-                    firstCor < squares.length - 10 &&
-                    secondCor < squares[firstCor].length - 10
-                ) {
-                    let glider = new HeavyGlider(firstCor, secondCor, squares);
-                    specialFormations.push(glider);
-                    glider.display();
-                    setNewSmallestAndBiggestAlive(firstCor - 5, secondCor - 5);
-                    setNewSmallestAndBiggestAlive(
-                        firstCor + 10,
-                        secondCor + 10
-                    );
-                }
-                break;
-        }
+    if (mouseIsPressed && currentlyDrawing) {
+        mouseDraw();
     }
     if (gameState === state.running) {
         oneStep();
+    }
+}
+
+function mouseDraw() {
+    let firstCor = Math.floor(mouseX / SQUARE_SIDE_SIZE);
+    let secondCor = Math.floor(mouseY / SQUARE_SIDE_SIZE);
+    switch (shapeCurrentlyDrawn) {
+        case shapesToDraw.CELL:
+            if (squares[firstCor][secondCor]) {
+                squares[firstCor][secondCor].clicked();
+                setNewSmallestAndBiggestAlive(firstCor, secondCor);
+            }
+            break;
+        case shapesToDraw.GLIDER:
+            if (
+                squares[firstCor][secondCor] &&
+                firstCor > 5 &&
+                secondCor > 5 &&
+                firstCor < squares.length - 5 &&
+                secondCor < squares[firstCor].length - 5
+            ) {
+                let glider = new Glider(firstCor, secondCor, squares);
+                specialFormations.push(glider);
+                glider.display();
+                setNewSmallestAndBiggestAlive(firstCor - 5, secondCor - 5);
+                setNewSmallestAndBiggestAlive(firstCor + 5, secondCor + 5);
+            }
+            break;
+        case shapesToDraw.HEAVY_GLIDER:
+            if (
+                squares[firstCor][secondCor] &&
+                firstCor > 5 &&
+                secondCor > 5 &&
+                firstCor < squares.length - 10 &&
+                secondCor < squares[firstCor].length - 10
+            ) {
+                let glider = new HeavyGlider(firstCor, secondCor, squares);
+                specialFormations.push(glider);
+                glider.display();
+                setNewSmallestAndBiggestAlive(firstCor - 5, secondCor - 5);
+                setNewSmallestAndBiggestAlive(firstCor + 10, secondCor + 10);
+            }
+            break;
     }
 }
 
