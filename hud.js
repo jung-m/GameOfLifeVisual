@@ -29,21 +29,31 @@ function initHud() {
     clearButton.mousePressed(resetGame);
     buttons.push(clearButton);
 
-    fillRandomButton = createButton("Fill the field randomly");
+    fillRandomButton = createButton("Fill Field");
     fillRandomButton.class("baseButton defaultButton");
     fillRandomButton.parent(overlay);
     fillRandomButton.mousePressed(initializeRandom);
     buttons.push(fillRandomButton);
 
-    gliderDrawButton = createButton("Toggle glider draw");
+    gliderDrawButton = createButton("Glider");
     gliderDrawButton.class("baseButton defaultButton");
     gliderDrawButton.parent(overlay);
     gliderDrawButton.mousePressed(toggleGliderDraw);
     buttons.push(gliderDrawButton);
 
-    heavyGliderDrawButton = createButton("Toggle heavy glider draw");
+    heavyGliderDrawButton = createButton("Heavy Glider");
     heavyGliderDrawButton.class("baseButton defaultButton");
     heavyGliderDrawButton.parent(overlay);
     heavyGliderDrawButton.mousePressed(toggleHeavyGliderDraw);
     buttons.push(heavyGliderDrawButton);
+}
+
+function activateButton(button) {
+    button.addClass("activatedButton");
+    button.removeClass("defaultButton");
+}
+
+function deactivateButton(button) {
+    button.addClass("defaultButton");
+    button.removeClass("activatedButton");
 }

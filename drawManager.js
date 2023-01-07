@@ -14,13 +14,11 @@ function toggleGliderDraw() {
         toggleDrawFunctions[shapeCurrentlyDrawn]();
         shapeCurrentlyDrawn = shapesToDraw.GLIDER;
 
-        gliderDrawButton.addClass("activatedButton");
-        gliderDrawButton.removeClass("defaultButton");
+        activateButton(gliderDrawButton);
     } else {
         shapeCurrentlyDrawn = shapesToDraw.CELL;
 
-        gliderDrawButton.removeClass("activatedButton");
-        gliderDrawButton.addClass("defaultButton");
+        deactivateButton(gliderDrawButton);
     }
 }
 
@@ -29,13 +27,11 @@ function toggleHeavyGliderDraw() {
         toggleDrawFunctions[shapeCurrentlyDrawn]();
         shapeCurrentlyDrawn = shapesToDraw.HEAVY_GLIDER;
 
-        heavyGliderDrawButton.addClass("activatedButton");
-        heavyGliderDrawButton.removeClass("defaultButton");
+        activateButton(heavyGliderDrawButton);
     } else {
         shapeCurrentlyDrawn = shapesToDraw.CELL;
 
-        heavyGliderDrawButton.removeClass("activatedButton");
-        heavyGliderDrawButton.addClass("defaultButton");
+        deactivateButton(heavyGliderDrawButton);
     }
 }
 
