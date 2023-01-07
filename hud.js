@@ -1,3 +1,4 @@
+let overlay;
 let startButton;
 let pauseButton;
 let clearButton;
