@@ -13,7 +13,7 @@ function initHud() {
     startButton = createButton("Start");
     startButton.class("baseButton defaultButton");
     startButton.parent(overlay);
-    startButton.mousePressed(startGame);
+    startButton.mousePressed(resumeGame);
     buttons.push(startButton);
 
     pauseButton = createButton("Pause");
@@ -25,7 +25,7 @@ function initHud() {
     clearButton = createButton("Clear");
     clearButton.class("baseButton defaultButton");
     clearButton.parent(overlay);
-    clearButton.mousePressed(clearField);
+    clearButton.mousePressed(resetGame);
     buttons.push(clearButton);
 
     fillRandomButton = createButton("Fill the field randomly");

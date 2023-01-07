@@ -10,8 +10,6 @@ var aliveNextStep = [];
 
 var specialFormations = [];
 
-var gameRunning = false;
-
 var shapesToDraw = { CELL: 0, GLIDER: 1, HEAVY_GLIDER: 2 };
 var toggleDrawFunctions = {
     0: () => {},
@@ -65,7 +63,7 @@ function setup() {
 function draw() {
     let firstCor = Math.floor(mouseX / SQUARE_SIDE_SIZE);
     let secondCor = Math.floor(mouseY / SQUARE_SIDE_SIZE);
-    if (mouseIsPressed && gameRunning === false && currentlyDrawing === true) {
+    if (mouseIsPressed && currentlyDrawing === true) {
         switch (shapeCurrentlyDrawn) {
             case shapesToDraw.CELL:
                 if (squares[firstCor][secondCor]) {
@@ -108,8 +106,7 @@ function draw() {
                 break;
         }
     }
-
-    if (gameRunning === true) {
+    if (gameState === state.running) {
         oneStep();
     }
 }
@@ -207,14 +204,6 @@ function getLivingNeighborCount(i, j) {
         }
     }
     return livingCount;
-}
-
-function startGame() {
-    gameRunning = true;
-}
-
-function pauseGame() {
-    gameRunning = false;
 }
 
 function clearField() {
