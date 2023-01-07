@@ -12,19 +12,44 @@
     transform: translate(-50%, -50%);
     width: 50vw;
     height: 10vh;
-  }
+}
 
-  .baseButton {
+.baseButton {
     margin: 1vw;
     font-weight: bold;
+    font-family: "Courier New", monospace;
+    margin: 1vmin;
+    padding: 2vmin;
     min-width: 5vw;
     min-height: 4vh;
     outline: none;
-    border: none;
-    border-radius: 10px;
-    background-image: radial-gradient(gold, darkgoldenrod);
-  }
+    border: 2px solid #ebc034;
+    border-radius: 3px;
+    transition: 0.3s;
+}
 
-  .baseButton:hover {
-    background-image: radial-gradient(rgb(134, 99, 9), rgb(134, 99, 9));
-  }
+.defaultButton {
+    background-color: black;
+    opacity: 0.8;
+    color: #ebc034;
+}
+
+.defaultButton:hover {
+    opacity: 1;
+    background-color: #ebc034;
+    color: white;
+}
+
+.activatedButton {
+    opacity: 1;
+    background-color: #006d00;
+    border: 2px solid rgb(230,230,230);
+    color: rgb(230,230,230);
+}
+
+.activatedButton:hover {
+    opacity: 1;
+    background-color: #00b100;
+    border: 2px solid white;
+    color: white;
+}
