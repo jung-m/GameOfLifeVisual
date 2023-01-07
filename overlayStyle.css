@@ -16,10 +16,14 @@
 
 .baseButton {
     margin: 1vw;
+    line-height: 1;
+    display: inline-block;
+    /* margin: 0.5em;
+    padding: 1em 2em; */
     font-weight: bold;
     font-family: "Courier New", monospace;
     margin: 1vmin;
-    padding: 2vmin;
+    padding: 1.5vmin;
     min-width: 5vw;
     min-height: 4vh;
     outline: none;
