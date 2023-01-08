@@ -12,9 +12,12 @@ var biggestAliveY = INITIAL_BIGGEST;
 
 const MARGIN_AROUND_SMALLEST_BIGGEST = 10;
 
+const fr = 30;
+
 function setup() {
     createCanvas(window.innerWidth, window.innerHeight);
     background(0);
+    setFrameRate(fr);
 
     initHud();
 
@@ -90,4 +93,8 @@ function setNewSmallestAndBiggestAlive(i, j) {
     smallestAliveY = Math.min(j, smallestAliveY);
     biggestAliveX = Math.max(i, biggestAliveX);
     biggestAliveY = Math.max(j, biggestAliveY);
+}
+
+function setFrameRate(newFr) {
+    frameRate(newFr);
 }
