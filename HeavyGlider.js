@@ -21,7 +21,6 @@ function HeavyGlider(x, y, squaresArray) {
     this.display = function () {
       this.cells.forEach((e) => {
         e.setAlive();
-        e.display();
       });
     };
   

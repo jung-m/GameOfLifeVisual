@@ -27,7 +27,7 @@ function setup() {
 }
 
 function draw() {
-    if (mouseIsPressed && currentlyDrawing) {
+    if (gameState === state.paused && mouseIsPressed && currentlyDrawing) {
         mouseDraw();
     }
     if (gameState === state.running) {
