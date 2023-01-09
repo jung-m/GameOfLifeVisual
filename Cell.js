@@ -1,6 +1,7 @@
-function Cell(x, y, sizeOfSide) {
+function Cell(x, y, cellCoord, sizeOfSide) {
     this.upperLeftX = x;
     this.upperLeftY = y;
+    this.coord = cellCoord;
     this.col = color(0, 0, 0);
     this.aliveWindow = [false, false];
     // this.isAlive = false;
@@ -44,8 +45,8 @@ function Cell(x, y, sizeOfSide) {
         this.display();
     };
 
-    this.update = function (i, j) {
-        let livingNeighborCount = getLivingNeighborCount(i, j);
+    this.update = function () {
+        let livingNeighborCount = getLivingNeighborCount(this.cellCoord.x, this.cellCoord.y);
         if (
             this.aliveWindow[aliveWindowIndex] === false &&
             livingNeighborCount === 3

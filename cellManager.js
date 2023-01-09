@@ -12,6 +12,7 @@ function initCells() {
             squares[firstCoorCount][secondCoorCount] = new Cell(
                 i,
                 j,
+                new CellCoordinate(firstCoorCount, secondCoorCount),
                 SQUARE_SIDE_SIZE
             );
             secondCoorCount++;
@@ -42,7 +43,7 @@ function oneStep() {
             j <= biggestAliveY + MARGIN_AROUND_SMALLEST_BIGGEST;
             j++
         ) {
-            squares[i][j].update(i, j);
+            squares[i][j].update();
 
             if (squares[i][j].aliveWindow[newAliveWindowIndex()] === true) {
                 tempsmallestAliveX = Math.min(i, smallestAliveX);
