@@ -19,8 +19,7 @@ function Cell(x, y, cellCoord, sizeOfSide) {
 
     this.clicked = function () {
         // this.setAlive();
-        this.aliveWindow[aliveWindowIndex] = true;
-        this.aliveDisplay();
+        this.setAlive();
     };
 
     this.setAlive = function () {
@@ -46,7 +45,10 @@ function Cell(x, y, cellCoord, sizeOfSide) {
     };
 
     this.update = function () {
-        let livingNeighborCount = getLivingNeighborCount(this.cellCoord.x, this.cellCoord.y);
+        let livingNeighborCount = getLivingNeighborCount(
+            this.coord.x,
+            this.coord.y
+        );
         if (
             this.aliveWindow[aliveWindowIndex] === false &&
             livingNeighborCount === 3

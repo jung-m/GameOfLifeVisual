@@ -14,6 +14,8 @@ const MARGIN_AROUND_SMALLEST_BIGGEST = 10;
 
 const fr = 30;
 
+let quadTree;
+
 function setup() {
     createCanvas(window.innerWidth, window.innerHeight);
     background(0);
@@ -27,9 +29,31 @@ function setup() {
     });
 
     initCells();
+
+    quadTree = new QuadTree(
+        new CellCoordinate(0, 0),
+        new CellCoordinate(squares.length, squares[0].length)
+    );
+
+    // if (quadTree.insert(squares[50][50])) {
+    //     console.log("yes");
+    // }
+    // quadTree.insert(squares[50][50])
+    // quadTree.insert(squares[100][50])
+    // quadTree.insert(squares[100][20])
+    // console.log(quadTree);
+    // quadTree.show();
 }
 
+// function mouseClicked() {
+//     background(0);
+//     quadTree.remove(squares[50][50]);
+//     console.log(quadTree);
+//     quadTree.show();
+// }
+
 function draw() {
+
     if (gameState === state.paused && mouseIsPressed && currentlyDrawing) {
         mouseDraw();
     }
