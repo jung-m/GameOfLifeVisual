@@ -72,7 +72,7 @@ function clearField() {
     toRemove = [];
     toUpdate = [];
     cellsToUpdate = new Set();
-    setInitialBorders();
+    // setInitialBorders();
 }
 
 function initializeRandom() {
@@ -82,7 +82,7 @@ function initializeRandom() {
             let randChance = Math.random();
             if (randChance > 0.7) {
                 squares[k][l].setAlive();
-                setNewSmallestAndBiggestAlive(k, l);
+                // setNewSmallestAndBiggestAlive(k, l);
             }
         }
     }
