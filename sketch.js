@@ -16,6 +16,8 @@ const fr = 30;
 
 let quadTree;
 
+let recta;
+
 function setup() {
     createCanvas(window.innerWidth, window.innerHeight);
     background(0);
@@ -34,32 +36,17 @@ function setup() {
         new CellCoordinate(0, 0),
         new CellCoordinate(squares.length, squares[0].length)
     );
-
-    // if (quadTree.insert(squares[50][50])) {
-    //     console.log("yes");
-    // }
-    // quadTree.insert(squares[50][50])
-    // quadTree.insert(squares[100][50])
-    // quadTree.insert(squares[100][20])
-    // console.log(quadTree);
-    // quadTree.show();
 }
 
-// function mouseClicked() {
-//     background(0);
-//     quadTree.remove(squares[50][50]);
-//     console.log(quadTree);
-//     quadTree.show();
-// }
-
 function draw() {
-
+    // quadTree.show(0, 0, 0);
     if (gameState === state.paused && mouseIsPressed && currentlyDrawing) {
         mouseDraw();
     }
     if (gameState === state.running) {
         oneStep();
     }
+    // quadTree.show(255, 255, 255);
 }
 
 function mouseDraw() {

@@ -13,6 +13,5 @@ function pauseGame() {
 
 function resetGame() {
     pauseGame();
-    aliveWindowIndex = 0;
     clearField();
 }

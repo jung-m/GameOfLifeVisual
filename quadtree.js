@@ -20,8 +20,8 @@ function CellAABB(topLeft, bottomRight) {
         return (
             this.topLeft.x <= cell.coord.x &&
             this.topLeft.y <= cell.coord.y &&
-            this.bottomRight.x >= cell.coord.x &&
-            this.bottomRight.y >= cell.coord.y
+            this.bottomRight.x > cell.coord.x &&
+            this.bottomRight.y > cell.coord.y
         );
     };
 }
@@ -34,6 +34,7 @@ function QuadTree(topLeft, bottomRight) {
     this.bottomRightChild = null;
     this.cells = [];
     this.empty = true;
+    this.isLeaf = true;
 
     this.createChildren = function () {
         this.topLeftChild = new QuadTree(
@@ -70,6 +71,7 @@ function QuadTree(topLeft, bottomRight) {
             ),
             this.aabb.bottomRight
         );
+        this.isLeaf = false;
     };
 
     this.insert = function (cell) {
@@ -106,14 +108,17 @@ function QuadTree(topLeft, bottomRight) {
             return false;
         }
         if (this.cells.length > 0) {
-            const index = this.cells.indexOf(cell);
-            if (index > -1) {
-                this.cells.splice(index, 1);
-                if (this.cells.length === 0) {
-                    this.empty = true;
+            let newCells = [];
+            for (c of this.cells) {
+                if (c != cell) {
+                    newCells.push(c);
                 }
-                return true;
             }
+            this.cells = newCells;
+            if (this.cells.length === 0) {
+                this.empty = true;
+            }
+            return true;
         }
         if (this.topLeftChild === null) {
             return false;
@@ -141,11 +146,31 @@ function QuadTree(topLeft, bottomRight) {
     };
 
     this.updateRelevantCells = function () {
-        return;
+        if (
+            Math.abs(this.aabb.topLeft.x - this.aabb.bottomRight.x) <=
+                SMALLEST_RECT_SIDE ||
+            Math.abs(this.aabb.topLeft.y - this.aabb.bottomRight.y) <=
+                SMALLEST_RECT_SIDE
+        ) {
+            let minW = Math.max(0, this.aabb.topLeft.x - 1);
+            let minH = Math.max(0, this.aabb.topLeft.y - 1);
+            let maxW = Math.min(squares.length, this.aabb.bottomRight.x + 1);
+            let maxH = Math.min(squares[0].length, this.aabb.bottomRight.y + 1);
+            for (let i = minW; i < maxW; i++) {
+                for (let j = minH; j < maxH; j++) {
+                    cellsToUpdate.add(squares[i][j]);
+                }
+            }
+        } else if (this.topLeftChild != null) {
+            this.topLeftChild.updateRelevantCells();
+            this.bottomLeftChild.updateRelevantCells();
+            this.topRightChild.updateRelevantCells();
+            this.bottomRightChild.updateRelevantCells();
+        }
     };
 
-    this.show = function () {
-        stroke(255, 255, 255);
+    this.show = function (r, g, b) {
+        stroke(r, g, b);
         let c = color(255, 255, 255, 0);
         fill(c);
         rect(
@@ -155,15 +180,27 @@ function QuadTree(topLeft, bottomRight) {
             (this.aabb.bottomRight.y - this.aabb.topLeft.y) * SQUARE_SIDE_SIZE
         );
         if (this.topLeftChild) {
-            this.topLeftChild.show();
-            this.bottomLeftChild.show();
-            this.topRightChild.show();
-            this.bottomRightChild.show();
+            this.topLeftChild.show(r, g, b);
+            this.bottomLeftChild.show(r, g, b);
+            this.topRightChild.show(r, g, b);
+            this.bottomRightChild.show(r, g, b);
         }
+        stroke(0, 0, 0);
+        c = color(255, 255, 255);
+        fill(c);
+    };
+
+    this.showContainedCells = function () {
+        fill(color(0, 255, 0));
         for (cell of this.cells) {
-            strokeWeight(4);
-            point(cell.upperLeftX, cell.upperLeftY);
-            strokeWeight(1);
+            square(cell.upperLeftX, cell.upperLeftY, SQUARE_SIDE_SIZE);
         }
+        if (this.topLeftChild) {
+            this.topLeftChild.showContainedCells();
+            this.bottomLeftChild.showContainedCells();
+            this.topRightChild.showContainedCells();
+            this.bottomRightChild.showContainedCells();
+        }
+        fill(color(255, 255, 255));
     };
 }

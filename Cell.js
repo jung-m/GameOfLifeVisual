@@ -3,12 +3,10 @@ function Cell(x, y, cellCoord, sizeOfSide) {
     this.upperLeftY = y;
     this.coord = cellCoord;
     this.col = color(0, 0, 0);
-    this.aliveWindow = [false, false];
-    // this.isAlive = false;
-    // this.isAliveNextStep = false;
+    this.updated = false;
+    this.isAlive = false;
 
     this.init = function () {
-        this.aliveWindow = [false, false];
         this.kill();
     };
 
@@ -18,19 +16,18 @@ function Cell(x, y, cellCoord, sizeOfSide) {
     };
 
     this.clicked = function () {
-        // this.setAlive();
         this.setAlive();
     };
 
     this.setAlive = function () {
-        // this.isAlive = true;
-        this.aliveWindow[aliveWindowIndex] = true;
+        quadTree.insert(this);
+        this.isAlive = true;
         this.aliveDisplay();
     };
 
     this.kill = function () {
-        // this.isAlive = false;
-        this.aliveWindow[aliveWindowIndex] = false;
+        quadTree.remove(this);
+        this.isAlive = false;
         this.killedDisplay();
     };
 
@@ -49,39 +46,26 @@ function Cell(x, y, cellCoord, sizeOfSide) {
             this.coord.x,
             this.coord.y
         );
-        if (
-            this.aliveWindow[aliveWindowIndex] === false &&
-            livingNeighborCount === 3
-        ) {
-            this.aliveWindow[newAliveWindowIndex()] = true;
+        let aliveNextStep = false;
+        if (this.isAlive === false && livingNeighborCount === 3) {
+            aliveNextStep = true;
         } else if (
-            this.aliveWindow[aliveWindowIndex] === true &&
+            this.isAlive === true &&
             livingNeighborCount >= 2 &&
             livingNeighborCount <= 3
         ) {
-            this.aliveWindow[newAliveWindowIndex()] = true;
-        } else if (
-            this.aliveWindow[aliveWindowIndex] === true &&
-            livingNeighborCount < 2
-        ) {
-            this.aliveWindow[newAliveWindowIndex()] = false;
-        } else if (
-            this.aliveWindow[aliveWindowIndex] === true &&
-            livingNeighborCount > 3
-        ) {
-            this.aliveWindow[newAliveWindowIndex()] = false;
+            aliveNextStep = true;
+        } else if (this.isAlive === true && livingNeighborCount < 2) {
+            aliveNextStep = false;
+        } else if (this.isAlive === true && livingNeighborCount > 3) {
+            aliveNextStep = false;
         } else {
-            this.aliveWindow[newAliveWindowIndex()] = false;
+            aliveNextStep = false;
         }
-
-        this.updateDisplayStatus();
-    };
-
-    this.updateDisplayStatus = function () {
-        if (this.aliveWindow[newAliveWindowIndex()] === true) {
-            this.aliveDisplay();
-        } else {
-            this.killedDisplay();
+        if (this.isAlive && !aliveNextStep) {
+            toRemove.push(this);
+        } else if (!this.isAlive && aliveNextStep) {
+            toInsert.push(this);
         }
     };
 }

@@ -1,6 +1,9 @@
 var squares = [];
-// var aliveNextStep = [];
-var aliveWindowIndex = 0;
+
+let toInsert = [];
+let toRemove = [];
+let toUpdate = [];
+let cellsToUpdate = new Set();
 
 function initCells() {
     let firstCoorCount = 0;
@@ -22,96 +25,20 @@ function initCells() {
 }
 
 function oneStep() {
-    var tempsmallestAliveX = smallestAliveX;
-    var tempsmallestAliveY = smallestAliveY;
-    var tempbiggestAliveX = biggestAliveX;
-    var tempbiggestAliveY = biggestAliveY;
-
-    for (
-        let i = Math.max(smallestAliveX - MARGIN_AROUND_SMALLEST_BIGGEST, 0);
-        i < squares.length &&
-        i <= biggestAliveX + MARGIN_AROUND_SMALLEST_BIGGEST;
-        i++
-    ) {
-        // aliveNextStep[i] = [];
-        for (
-            let j = Math.max(
-                smallestAliveY - MARGIN_AROUND_SMALLEST_BIGGEST,
-                0
-            );
-            j < squares[i].length &&
-            j <= biggestAliveY + MARGIN_AROUND_SMALLEST_BIGGEST;
-            j++
-        ) {
-            squares[i][j].update();
-
-            if (squares[i][j].aliveWindow[newAliveWindowIndex()] === true) {
-                tempsmallestAliveX = Math.min(i, smallestAliveX);
-                tempsmallestAliveY = Math.min(j, smallestAliveY);
-                tempbiggestAliveX = Math.max(i, biggestAliveX);
-                tempbiggestAliveY = Math.max(j, biggestAliveY);
-            }
-
-            // let livingNeighborCount = getLivingNeighborCount(i, j);
-            // if (squares[i][j].isAlive === false && livingNeighborCount === 3) {
-            //     aliveNextStep[i][j] = true;
-            // } else if (
-            //     squares[i][j].isAlive === true &&
-            //     livingNeighborCount >= 2 &&
-            //     livingNeighborCount <= 3
-            // ) {
-            //     aliveNextStep[i][j] = true;
-            // } else if (
-            //     squares[i][j].isAlive === true &&
-            //     livingNeighborCount < 2
-            // ) {
-            //     aliveNextStep[i][j] = false;
-            // } else if (
-            //     squares[i][j].isAlive === true &&
-            //     livingNeighborCount > 3
-            // ) {
-            //     aliveNextStep[i][j] = false;
-            // }
-        }
+    quadTree.updateRelevantCells();
+    cellsToUpdate.forEach(el => el.update())
+    for (cell of toInsert) {
+        cell.updated = false;
+        cell.setAlive();
     }
-
-    setNewSmallestAndBiggestAlive(tempsmallestAliveX, tempsmallestAliveY);
-    setNewSmallestAndBiggestAlive(tempbiggestAliveX, tempbiggestAliveY);
-
-    updateAliveWindowIndex();
-
-    // var tempsmallestAliveX = smallestAliveX;
-    // var tempsmallestAliveY = smallestAliveY;
-    // var tempbiggestAliveX = biggestAliveX;
-    // var tempbiggestAliveY = biggestAliveY;
-    // for (
-    //     let i = Math.max(smallestAliveX - MARGIN_AROUND_SMALLEST_BIGGEST, 0);
-    //     i < squares.length &&
-    //     i <= biggestAliveX + MARGIN_AROUND_SMALLEST_BIGGEST;
-    //     i++
-    // ) {
-    //     for (
-    //         let j = Math.max(
-    //             smallestAliveY - MARGIN_AROUND_SMALLEST_BIGGEST,
-    //             0
-    //         );
-    //         j < squares[i].length &&
-    //         j <= biggestAliveY + MARGIN_AROUND_SMALLEST_BIGGEST;
-    //         j++
-    //     ) {
-    //         if (aliveNextStep[i][j] === true) {
-    //             squares[i][j].setAlive();
-    //             tempsmallestAliveX = Math.min(i, smallestAliveX);
-    //             tempsmallestAliveY = Math.min(j, smallestAliveY);
-    //             tempbiggestAliveX = Math.max(i, biggestAliveX);
-    //             tempbiggestAliveY = Math.max(j, biggestAliveY);
-    //         } else {
-    //             squares[i][j].kill();
-    //         }
-    //     }
-    // }
-    // setNewSmallestAndBiggestAlive(tempsmallestAliveX, tempsmallestAliveY);
-    // setNewSmallestAndBiggestAlive(tempbiggestAliveX, tempbiggestAliveY);
+    for (cell of toRemove) {
+        cell.updated = false;
+        cell.kill();
+    }
+    toInsert = [];
+    toRemove = [];
+    toUpdate = [];
+    cellsToUpdate = new Set();
 }
 
 function getLivingNeighborCount(i, j) {
@@ -126,8 +53,7 @@ function getLivingNeighborCount(i, j) {
             if (
                 squares[m][n] &&
                 (m !== i || n !== j) &&
-                squares[m][n].aliveWindow[aliveWindowIndex]
-                // squares[m][n].isAlive
+                squares[m][n].isAlive
             ) {
                 livingCount++;
             }
@@ -140,9 +66,12 @@ function clearField() {
     squares.forEach((element) => {
         element.forEach((el) => {
             el.init();
-            // el.kill();
         });
     });
+    toInsert = [];
+    toRemove = [];
+    toUpdate = [];
+    cellsToUpdate = new Set();
     setInitialBorders();
 }
 
@@ -157,12 +86,4 @@ function initializeRandom() {
             }
         }
     }
-}
-
-function updateAliveWindowIndex() {
-    aliveWindowIndex = newAliveWindowIndex();
-}
-
-function newAliveWindowIndex() {
-    return (aliveWindowIndex + 1) % 2;
 }
