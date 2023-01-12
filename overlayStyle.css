@@ -18,11 +18,12 @@
     display: inline-block;
     white-space: nowrap;
     overflow: hidden;
-    font-size: large;
+    /* font-size: large; */
     /* margin: 0.5em;
     padding: 1em 2em; */
     font-weight: bolder;
-    font-family: "Courier New", monospace;
+    /* font-family: "Courier New", monospace; */
+    font-family: "Courier New", Courier, monospace;
     margin: 1vmin;
     padding: 1.5vmin;
     min-width: fit-content;
