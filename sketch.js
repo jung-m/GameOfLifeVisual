@@ -19,8 +19,8 @@ let quadTree;
 let recta;
 
 function setup() {
-    let cv = createCanvas(window.innerWidth, window.innerHeight);
-    cv.mouseClicked(mouseClicked);
+    createCanvas(window.innerWidth, window.innerHeight);
+    // cv.mouseClicked(mouseClicked);
     background(0);
     setFrameRate(fr);
 
@@ -45,7 +45,7 @@ function mouseDragged() {
     }
 }
 
-function mouseClicked() {
+function mousePressed() {
     if (gameState === state.paused && currentlyDrawing) {
         mouseDraw();
     }
