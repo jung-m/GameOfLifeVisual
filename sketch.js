@@ -1,7 +1,12 @@
 const SCREEN_WIDTH = window.innerWidth;
 const SCREEN_HEIGHT = window.innerHeight;
 
-const SQUARE_SIDE_SIZE = Math.max(SCREEN_WIDTH, SCREEN_HEIGHT) / 100;
+let SQUARE_SIDE_SIZE = Math.max(SCREEN_WIDTH, SCREEN_HEIGHT) / 150;
+let isMobile = window.matchMedia("only screen and (max-width: 760px)").matches;
+
+if (isMobile) {
+    SQUARE_SIDE_SIZE = Math.max(SCREEN_WIDTH, SCREEN_HEIGHT) / 50;
+}
 
 // const INITIAL_SMALLEST = SCREEN_WIDTH * 10;
 // const INITIAL_BIGGEST = 0;
