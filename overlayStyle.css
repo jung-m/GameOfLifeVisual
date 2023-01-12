@@ -17,14 +17,16 @@
     margin: 1vw;
     line-height: 1;
     display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
     /* margin: 0.5em;
     padding: 1em 2em; */
     font-weight: bold;
     font-family: "Courier New", monospace;
     margin: 1vmin;
     padding: 1.5vmin;
-    min-width: 5vw;
-    min-height: 4vh;
+    min-width: fit-content;
+    min-height: fit-content;
     outline: none;
     border: 2px solid #ebc034;
     border-radius: 3px;
@@ -46,8 +48,8 @@
 .activatedButton {
     opacity: 1;
     background-color: #006d00;
-    border: 2px solid rgb(230,230,230);
-    color: rgb(230,230,230);
+    border: 2px solid rgb(230, 230, 230);
+    color: rgb(230, 230, 230);
 }
 
 .activatedButton:hover {
