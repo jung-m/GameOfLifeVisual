@@ -15,7 +15,7 @@
 
 .baseButton {
     margin: 1vw;
-    line-height: 1;
+    /* line-height: 1; */
     display: inline-block;
     white-space: nowrap;
     overflow: hidden;
