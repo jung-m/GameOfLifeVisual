@@ -8,20 +8,20 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    top: 90%;
+    top: 93%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
 
 .baseButton {
-    margin: 1vw;
     /* line-height: 1; */
     display: inline-block;
     white-space: nowrap;
     overflow: hidden;
+    font-size: large;
     /* margin: 0.5em;
     padding: 1em 2em; */
-    font-weight: bold;
+    font-weight: bolder;
     font-family: "Courier New", monospace;
     margin: 1vmin;
     padding: 1.5vmin;
