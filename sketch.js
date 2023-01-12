@@ -26,9 +26,10 @@ let recta;
 function setup() {
     let cv = createCanvas(window.innerWidth, window.innerHeight);
     // cv.mouseDragged(mouseD);
+    cv.addClass("canvas");
     cv.mousePressed(mouseP);
-    cv.touchStarted(mouseP);
-    cv.touchMoved(mouseP);
+    // cv.touchStarted(mouseP);
+    // cv.touchMoved(mouseP);
     background(0);
     setFrameRate(fr);
 
