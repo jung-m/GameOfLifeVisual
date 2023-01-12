@@ -19,17 +19,18 @@ let quadTree;
 let recta;
 
 function setup() {
-    createCanvas(window.innerWidth, window.innerHeight);
-    // cv.mouseClicked(mouseClicked);
+    let cv = createCanvas(window.innerWidth, window.innerHeight);
+    // cv.mouseDragged(mouseD);
+    cv.mousePressed(mouseP);
     background(0);
     setFrameRate(fr);
 
     initHud();
 
-    buttons.forEach((el) => {
-        el.mouseOver(toggleDraw);
-        el.mouseOut(toggleDraw);
-    });
+    // buttons.forEach((el) => {
+    //     el.mouseOver(toggleDraw);
+    //     el.mouseOut(toggleDraw);
+    // });
 
     initCells();
 
@@ -45,7 +46,7 @@ function mouseDragged() {
     }
 }
 
-function mousePressed() {
+function mouseP() {
     if (gameState === state.paused && currentlyDrawing) {
         mouseDraw();
     }
