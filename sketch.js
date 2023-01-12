@@ -5,7 +5,7 @@ let SQUARE_SIDE_SIZE = Math.max(SCREEN_WIDTH, SCREEN_HEIGHT) / 150;
 let isMobile = window.matchMedia("only screen and (max-width: 760px)").matches;
 
 if (isMobile) {
-    SQUARE_SIDE_SIZE = Math.max(SCREEN_WIDTH, SCREEN_HEIGHT) / 50;
+    SQUARE_SIDE_SIZE = Math.max(SCREEN_WIDTH, SCREEN_HEIGHT) / 10;
 }
 
 // const INITIAL_SMALLEST = SCREEN_WIDTH * 10;
@@ -27,6 +27,8 @@ function setup() {
     let cv = createCanvas(window.innerWidth, window.innerHeight);
     // cv.mouseDragged(mouseD);
     cv.mousePressed(mouseP);
+    cv.touchStarted(mouseP);
+    cv.touchMoved(mouseP);
     background(0);
     setFrameRate(fr);
 
