@@ -1,7 +1,7 @@
 const SCREEN_WIDTH = window.innerWidth;
 const SCREEN_HEIGHT = window.innerHeight;
 
-const SQUARE_SIDE_SIZE = Math.max(SCREEN_WIDTH, SCREEN_HEIGHT) / 150;
+const SQUARE_SIDE_SIZE = Math.max(SCREEN_WIDTH, SCREEN_HEIGHT) / 100;
 
 // const INITIAL_SMALLEST = SCREEN_WIDTH * 10;
 // const INITIAL_BIGGEST = 0;
@@ -19,7 +19,8 @@ let quadTree;
 let recta;
 
 function setup() {
-    createCanvas(window.innerWidth, window.innerHeight);
+    let cv = createCanvas(window.innerWidth, window.innerHeight);
+    cv.mouseClicked(mouseClicked);
     background(0);
     setFrameRate(fr);
 
