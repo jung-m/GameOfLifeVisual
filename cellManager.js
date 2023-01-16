@@ -26,7 +26,7 @@ function initCells() {
 
 function oneStep() {
     quadTree.updateRelevantCells();
-    cellsToUpdate.forEach(el => el.update())
+    cellsToUpdate.forEach((el) => el.update());
     for (cell of toInsert) {
         cell.updated = false;
         cell.setAlive();
@@ -72,18 +72,4 @@ function clearField() {
     toRemove = [];
     toUpdate = [];
     cellsToUpdate = new Set();
-    // setInitialBorders();
-}
-
-function initializeRandom() {
-    clearField();
-    for (let k = 0; k < squares.length; k++) {
-        for (let l = 0; l < squares[k].length; l++) {
-            let randChance = Math.random();
-            if (randChance > 0.7) {
-                squares[k][l].setAlive();
-                // setNewSmallestAndBiggestAlive(k, l);
-            }
-        }
-    }
 }

@@ -2,7 +2,6 @@ let overlay;
 let startButton;
 let pauseButton;
 let clearButton;
-let fillRandomButton;
 let gliderDrawButton;
 let heavyGliderDrawButton;
 let buttons = [];
@@ -30,12 +29,6 @@ function initHud() {
     clearButton.mousePressed(resetGame);
     buttons.push(clearButton);
 
-    // fillRandomButton = createButton("Fill Field");
-    // fillRandomButton.class("baseButton defaultButton");
-    // fillRandomButton.parent(overlay);
-    // fillRandomButton.mousePressed(initializeRandom);
-    // buttons.push(fillRandomButton);
-
     gliderDrawButton = createButton("Glider");
     gliderDrawButton.class("baseButton defaultButton");
     gliderDrawButton.parent(overlay);
@@ -60,11 +53,11 @@ function deactivateButton(button) {
 }
 
 function hudOnPause() {
-    pauseButton.hide()
-    startButton.show()
+    pauseButton.hide();
+    startButton.show();
 }
 
 function hudOnRunning() {
-    startButton.hide()
-    pauseButton.show()
+    startButton.hide();
+    pauseButton.show();
 }
