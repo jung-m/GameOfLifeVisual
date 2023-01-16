@@ -152,13 +152,15 @@ function QuadTree(topLeft, bottomRight) {
             Math.abs(this.aabb.topLeft.y - this.aabb.bottomRight.y) <=
                 SMALLEST_RECT_SIDE
         ) {
-            let minW = Math.max(0, this.aabb.topLeft.x - 1);
-            let minH = Math.max(0, this.aabb.topLeft.y - 1);
-            let maxW = Math.min(squares.length, this.aabb.bottomRight.x + 1);
-            let maxH = Math.min(squares[0].length, this.aabb.bottomRight.y + 1);
+            let minW = this.aabb.topLeft.x - 1;
+            let minH = this.aabb.topLeft.y - 1;
+            let maxW = this.aabb.bottomRight.x + 1;
+            let maxH = this.aabb.bottomRight.y + 1;
             for (let i = minW; i < maxW; i++) {
                 for (let j = minH; j < maxH; j++) {
-                    toAddTo.add(squares[i][j]);
+                    k = xIndexOf(i);
+                    l = yIndexOf(j);
+                    toAddTo.add(squares[k][l]);
                 }
             }
         } else if (this.topLeftChild != null) {

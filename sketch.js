@@ -21,7 +21,6 @@ function setup() {
     initHud();
     initCells();
     initTree();
-    // cellsToUpdate();
 }
 
 function mouseDragged() {

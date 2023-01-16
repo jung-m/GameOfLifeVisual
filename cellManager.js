@@ -36,11 +36,8 @@ function getLivingNeighborCount(i, j) {
     let livingCount = 0;
     for (let k = i - 1; k <= i + 1; k++) {
         for (let l = j - 1; l <= j + 1; l++) {
-            let p = squares.length;
-            m = ((k % p) + p) % p;
-
-            p = squares[m].length;
-            n = ((l % p) + p) % p;
+            m = xIndexOf(k);
+            n = yIndexOf(l);
             if (
                 squares[m][n] &&
                 (m !== i || n !== j) &&
@@ -51,6 +48,16 @@ function getLivingNeighborCount(i, j) {
         }
     }
     return livingCount;
+}
+
+function xIndexOf(i) {
+    l = squares.length;
+    return ((i % l) + l) % l;
+}
+
+function yIndexOf(j) {
+    l = squares[0].length;
+    return ((j % l) + l) % l;
 }
 
 function clearField() {
