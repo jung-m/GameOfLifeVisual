@@ -10,8 +10,6 @@ if (isMobile) {
 
 const fr = 30;
 
-let quadTree;
-
 let recta;
 
 function setup() {
@@ -20,15 +18,10 @@ function setup() {
     cv.mousePressed(mouseP);
     background(0);
     setFrameRate(fr);
-
     initHud();
-
     initCells();
-
-    quadTree = new QuadTree(
-        new CellCoordinate(0, 0),
-        new CellCoordinate(squares.length, squares[0].length)
-    );
+    initTree();
+    // cellsToUpdate();
 }
 
 function mouseDragged() {

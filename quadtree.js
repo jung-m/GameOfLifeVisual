@@ -145,7 +145,7 @@ function QuadTree(topLeft, bottomRight) {
         }
     };
 
-    this.updateRelevantCells = function () {
+    this.addCellsToUpdate = function (toAddTo) {
         if (
             Math.abs(this.aabb.topLeft.x - this.aabb.bottomRight.x) <=
                 SMALLEST_RECT_SIDE ||
@@ -158,14 +158,14 @@ function QuadTree(topLeft, bottomRight) {
             let maxH = Math.min(squares[0].length, this.aabb.bottomRight.y + 1);
             for (let i = minW; i < maxW; i++) {
                 for (let j = minH; j < maxH; j++) {
-                    cellsToUpdate.add(squares[i][j]);
+                    toAddTo.add(squares[i][j]);
                 }
             }
         } else if (this.topLeftChild != null) {
-            this.topLeftChild.updateRelevantCells();
-            this.bottomLeftChild.updateRelevantCells();
-            this.topRightChild.updateRelevantCells();
-            this.bottomRightChild.updateRelevantCells();
+            this.topLeftChild.addCellsToUpdate(toAddTo);
+            this.bottomLeftChild.addCellsToUpdate(toAddTo);
+            this.topRightChild.addCellsToUpdate(toAddTo);
+            this.bottomRightChild.addCellsToUpdate(toAddTo);
         }
     };
 

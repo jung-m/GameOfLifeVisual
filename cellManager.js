@@ -1,10 +1,5 @@
 var squares = [];
 
-let toInsert = [];
-let toRemove = [];
-let toUpdate = [];
-let cellsToUpdate = new Set();
-
 function initCells() {
     let firstCoorCount = 0;
     let secondCoorCount = 0;
@@ -25,20 +20,16 @@ function initCells() {
 }
 
 function oneStep() {
-    quadTree.updateRelevantCells();
-    cellsToUpdate.forEach((el) => el.update());
+    toUpdate = cellsToUpdate();
+    toInsert = [];
+    toRemove = [];
+    toUpdate.forEach((el) => el.update(toInsert, toRemove));
     for (cell of toInsert) {
-        cell.updated = false;
         cell.setAlive();
     }
     for (cell of toRemove) {
-        cell.updated = false;
         cell.kill();
     }
-    toInsert = [];
-    toRemove = [];
-    toUpdate = [];
-    cellsToUpdate = new Set();
 }
 
 function getLivingNeighborCount(i, j) {
@@ -68,8 +59,4 @@ function clearField() {
             el.init();
         });
     });
-    toInsert = [];
-    toRemove = [];
-    toUpdate = [];
-    cellsToUpdate = new Set();
 }

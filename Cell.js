@@ -3,7 +3,6 @@ function Cell(x, y, cellCoord, sizeOfSide) {
     this.upperLeftY = y;
     this.coord = cellCoord;
     this.col = color(0, 0, 0);
-    this.updated = false;
     this.isAlive = false;
 
     this.init = function () {
@@ -41,7 +40,7 @@ function Cell(x, y, cellCoord, sizeOfSide) {
         this.display();
     };
 
-    this.update = function () {
+    this.update = function (newlyAlive, newlyDead) {
         let livingNeighborCount = getLivingNeighborCount(
             this.coord.x,
             this.coord.y
@@ -63,9 +62,9 @@ function Cell(x, y, cellCoord, sizeOfSide) {
             aliveNextStep = false;
         }
         if (this.isAlive && !aliveNextStep) {
-            toRemove.push(this);
+            newlyDead.push(this);
         } else if (!this.isAlive && aliveNextStep) {
-            toInsert.push(this);
+            newlyAlive.push(this);
         }
     };
 }
