@@ -35,7 +35,7 @@
 }
 
 .defaultButton {
-    background-color: black;
+    background-color: rgb(10, 10, 10);
     opacity: 0.8;
     color: #ebc034;
 }

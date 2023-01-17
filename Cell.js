@@ -36,7 +36,8 @@ function Cell(x, y, cellCoord, sizeOfSide) {
     };
 
     this.killedDisplay = function () {
-        this.col = color(0, 0, 0);
+        stroke(bgColor);
+        this.col = bgColor;
         this.display();
     };
 

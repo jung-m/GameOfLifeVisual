@@ -12,11 +12,14 @@ const fr = 30;
 
 let recta;
 
+let bgColor;
+
 function setup() {
     let cv = createCanvas(window.innerWidth, window.innerHeight);
     cv.addClass("canvas");
     cv.mousePressed(mouseP);
-    background(0);
+    bgColor = color(30, 30, 30);
+    background(bgColor);
     setFrameRate(fr);
     initHud();
     initCells();
