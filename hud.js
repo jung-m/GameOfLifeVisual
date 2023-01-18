@@ -11,7 +11,7 @@ function initHud() {
     overlay.class("overlay");
 
     startButton = createButton("");
-    startButton.class("baseButton defaultButton quadraticButton");
+    startButton.addClass("baseButton defaultButton quadraticButton");
     startButton.parent(overlay);
     startButton.mousePressed(resumeGame);
     buttons.push(startButton);
@@ -63,21 +63,21 @@ function initHud() {
 }
 
 function activateButton(button) {
-    button.addClass("activatedButton");
     button.removeClass("defaultButton");
+    button.addClass("activatedButton");
 }
 
 function deactivateButton(button) {
-    button.addClass("defaultButton");
     button.removeClass("activatedButton");
+    button.addClass("defaultButton");
 }
 
 function hudOnPause() {
     pauseButton.hide();
-    startButton.show();
+    startButton.style("display", "flex");
 }
 
 function hudOnRunning() {
     startButton.hide();
-    pauseButton.show();
+    pauseButton.style("display", "flex");
 }
