@@ -8,39 +8,35 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    height: 8vh;
     top: 93%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
 
 .baseButton {
-    /* line-height: 1; */
-    display: inline-block;
-    white-space: nowrap;
-    overflow: hidden;
-    /* font-size: large; */
-    /* margin: 0.5em;
-    padding: 1em 2em; */
-    font-weight: bold;
-    /* font-family: "Courier New", monospace; */
-    font-family: "Courier New", Courier, monospace;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin: 1vmin;
     padding: 1.5vmin;
-    min-width: fit-content;
-    min-height: fit-content;
+    height: 90%;
     outline: none;
     border: 2px solid #ebc034;
     border-radius: 3px;
     transition: 0.3s;
 }
 
-.playPauseButton {
-    padding-left: 2vmin;
-    padding-right: 2vmin;
+.quadraticButton {
+    aspect-ratio: 1 / 1;
+}
+
+.stretchButton {
+    aspect-ratio: 4 / 3;
 }
 
 .buttonIcon {
-    max-height: 3vmin;
+    max-height: 4vmin;
 }
 
 .defaultButton {

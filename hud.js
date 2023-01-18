@@ -11,7 +11,7 @@ function initHud() {
     overlay.class("overlay");
 
     startButton = createButton("");
-    startButton.class("baseButton defaultButton playPauseButton");
+    startButton.class("baseButton defaultButton quadraticButton");
     startButton.parent(overlay);
     startButton.mousePressed(resumeGame);
     buttons.push(startButton);
@@ -21,7 +21,7 @@ function initHud() {
     playIcon.parent(startButton);
 
     pauseButton = createButton("");
-    pauseButton.class("baseButton defaultButton playPauseButton");
+    pauseButton.class("baseButton defaultButton quadraticButton");
     pauseButton.parent(overlay);
     pauseButton.mousePressed(pauseGame);
     buttons.push(pauseButton);
@@ -32,7 +32,7 @@ function initHud() {
     pauseIcon.parent(pauseButton);
 
     clearButton = createButton("");
-    clearButton.class("baseButton defaultButton playPauseButton");
+    clearButton.class("baseButton defaultButton quadraticButton");
     clearButton.parent(overlay);
     clearButton.mousePressed(resetGame);
     buttons.push(clearButton);
@@ -42,7 +42,7 @@ function initHud() {
     clearIcon.parent(clearButton);
 
     gliderDrawButton = createButton("");
-    gliderDrawButton.class("baseButton defaultButton");
+    gliderDrawButton.class("baseButton defaultButton quadraticButton");
     gliderDrawButton.parent(overlay);
     gliderDrawButton.mousePressed(toggleGliderDraw);
     buttons.push(gliderDrawButton);
@@ -52,7 +52,7 @@ function initHud() {
     gliderIcon.parent(gliderDrawButton);
 
     heavyGliderDrawButton = createButton("");
-    heavyGliderDrawButton.class("baseButton defaultButton");
+    heavyGliderDrawButton.class("baseButton defaultButton stretchButton");
     heavyGliderDrawButton.parent(overlay);
     heavyGliderDrawButton.mousePressed(toggleHeavyGliderDraw);
     buttons.push(heavyGliderDrawButton);
