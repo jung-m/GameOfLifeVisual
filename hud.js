@@ -64,7 +64,7 @@ function initHud() {
     heavyGliderIcon.parent(heavyGliderDrawButton);
 
     menuButton = createButton("");
-    menuButton.class("baseButton defaultButton menuButton");
+    menuButton.class("baseButton defaultButton quadraticButton");
     menuButton.parent(overlay);
     menuButton.mousePressed(toggleMenu);
     buttons.push(menuButton);
