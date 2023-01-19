@@ -74,10 +74,14 @@ function deactivateButton(button) {
 
 function hudOnPause() {
     pauseButton.hide();
+    gliderDrawButton.style("display", "flex");
+    heavyGliderDrawButton.style("display", "flex");
     startButton.style("display", "flex");
 }
 
 function hudOnRunning() {
     startButton.hide();
+    gliderDrawButton.hide();
+    heavyGliderDrawButton.hide();
     pauseButton.style("display", "flex");
 }
