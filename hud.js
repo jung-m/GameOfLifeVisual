@@ -6,6 +6,8 @@ let gliderDrawButton;
 let heavyGliderDrawButton;
 let buttons = [];
 
+let inMenu = false;
+
 function initHud() {
     overlay = createElement("overlay");
     overlay.class("overlay");
@@ -60,6 +62,47 @@ function initHud() {
     heavyGliderIcon = createImg("./images/buttons/heavyGlider.png", "");
     heavyGliderIcon.class("buttonIcon");
     heavyGliderIcon.parent(heavyGliderDrawButton);
+
+    menuButton = createButton("");
+    menuButton.class("baseButton defaultButton menuButton");
+    menuButton.parent(overlay);
+    menuButton.mousePressed(toggleMenu);
+    buttons.push(menuButton);
+
+    menuIcon = createImg("./images/buttons/settings.png", "");
+    menuIcon.class("buttonIcon");
+    menuIcon.parent(menuButton);
+
+    // Menu
+    menu = createDiv("");
+    menu.class("menu");
+    menu.hide();
+
+    menuTopRow = createDiv("");
+    menuTopRow.class("menuTopRow");
+    menuTopRow.parent(menu);
+
+    crossCont = createDiv("");
+    crossCont.class("crossButtonContainer");
+    crossCont.parent(menu);
+
+    menuHeading = createSpan("Menu");
+    menuHeading.class("text heading noWrapText");
+    menuHeading.parent(menuTopRow);
+
+    crossButton = createButton("");
+    crossButton.class("baseButton defaultButton quadraticButton");
+    crossButton.parent(crossCont);
+    crossButton.mousePressed(toggleMenu);
+    buttons.push(crossButton);
+
+    crossIcon = createImg("./images/buttons/cross.png", "");
+    crossIcon.class("buttonIcon");
+    crossIcon.parent(crossButton);
+
+    menuHeading = createSpan("Choose structure to draw:");
+    menuHeading.class("text message noWrapText");
+    menuHeading.parent(menu);
 }
 
 function activateButton(button) {
@@ -77,6 +120,8 @@ function hudOnPause() {
     gliderDrawButton.style("display", "flex");
     heavyGliderDrawButton.style("display", "flex");
     startButton.style("display", "flex");
+    menuButton.style("display", "flex");
+    hideMenu();
 }
 
 function hudOnRunning() {
@@ -84,4 +129,20 @@ function hudOnRunning() {
     gliderDrawButton.hide();
     heavyGliderDrawButton.hide();
     pauseButton.style("display", "flex");
+    menuButton.hide();
+    hideMenu();
+}
+
+function displayMenu() {
+    menu.style("display", "flex");
+    inMenu = true;
+}
+
+function hideMenu() {
+    menu.hide();
+    inMenu = false;
+}
+
+function toggleMenu() {
+    gameToggleMenu();
 }

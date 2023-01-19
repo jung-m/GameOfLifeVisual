@@ -35,6 +35,10 @@
     aspect-ratio: 4 / 3;
 }
 
+.menuButton {
+    aspect-ratio: 9 / 8;
+}
+
 .buttonIcon {
     height: 80%;
 }
@@ -63,4 +67,66 @@
     background-color: #00b100;
     border: 2px solid white;
     color: white;
+}
+
+.menu {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 3vmin;
+    top: 50%;
+    left: 50%;
+    border-radius: 7px;
+    border: 2px solid #ebc034;
+    transform: translate(-50%, -50%);
+    background-color: rgba(38, 36, 34, 0.95);
+    transition: opacity 1000ms, visibility 1000ms;
+}
+
+.menuTopRow {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+}
+
+.crossButtonContainer {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 5vh;
+    width: 5vh;
+    padding: 0.5vmin;
+    top: 0%;
+    right: 0%;
+}
+
+.text {
+    color: white;
+    font-weight: bold;
+    font-family: "Courier New", monospace;
+}
+
+.noWrapText {
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.largeHeading {
+    font-size: 15vmin;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.heading {
+    font-size: 10vmin;
+}
+
+.message {
+    font-size: 5vmin;
 }
