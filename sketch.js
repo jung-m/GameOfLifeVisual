@@ -82,6 +82,14 @@ function mouseDraw() {
     }
 }
 
+function spawnGliderGun() {
+    let gliderGun = new GliderGun(
+        new CellCoordinate(squares.length / 2, squares[0].length / 2),
+        squares
+    );
+    gliderGun.setAlive();
+}
+
 function setFrameRate(newFr) {
     frameRate(newFr);
 }

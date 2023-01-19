@@ -73,25 +73,26 @@
     position: absolute;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     text-align: center;
     padding: 3vmin;
-    top: 50%;
+    height: 70%;
+    top: 45%;
     left: 50%;
     border-radius: 7px;
-    border: 2px solid #ebc034;
+    border: 3px solid #ebc034;
     transform: translate(-50%, -50%);
-    background-color: rgba(38, 36, 34, 0.95);
+    background-color: rgba(30, 30, 30, 0.95);
     transition: opacity 1000ms, visibility 1000ms;
 }
 
 .menuTopRow {
     position: relative;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    flex-direction: row;
+    flex-direction: column;
 }
 
 .crossButtonContainer {
@@ -104,6 +105,45 @@
     padding: 0.5vmin;
     top: 0%;
     right: 0%;
+}
+
+.structChooser {
+    height: 70%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.structButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin: 1vmin;
+    padding: 1vmin;
+    outline: none;
+    border-radius: 5px;
+    transition: 0.3s;
+    background-color: rgb(10, 10, 10);
+    opacity: 0.8;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.structButton:hover {
+    opacity: 1;
+    background-color: rgb(20, 20, 20);
+}
+
+.structDescr {
+    border-radius: 3px;
+    padding-left: 1vmin;
+    padding-right: 1vmin;
+    margin: 1vmin;
+}
+
+.structIcon {
 }
 
 .text {

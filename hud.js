@@ -102,7 +102,24 @@ function initHud() {
 
     menuHeading = createSpan("Choose structure to draw:");
     menuHeading.class("text message noWrapText");
-    menuHeading.parent(menu);
+    menuHeading.parent(menuTopRow);
+
+    structChooser = createDiv("");
+    structChooser.class("structChooser");
+    structChooser.parent(menu);
+
+    gliderGunButton = createDiv("");
+    gliderGunButton.class("structButton");
+    gliderGunButton.parent(structChooser);
+    gliderGunButton.mousePressed(selectGliderGun);
+
+    gliderGunDescr = createSpan("Glider Gun");
+    gliderGunDescr.class("text noWrapText message structDescr");
+    gliderGunDescr.parent(gliderGunButton);
+
+    gliderGunIcon = createImg("./images/structs/gliderGun.png", "");
+    gliderGunIcon.class("structIcon");
+    gliderGunIcon.parent(gliderGunButton);
 }
 
 function activateButton(button) {
@@ -145,4 +162,9 @@ function hideMenu() {
 
 function toggleMenu() {
     gameToggleMenu();
+}
+
+function selectGliderGun() {
+    resetGame();
+    spawnGliderGun();
 }
