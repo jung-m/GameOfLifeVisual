@@ -125,6 +125,7 @@
     flex-direction: column;
     margin: 1vmin;
     padding: 1vmin;
+    width: 100%;
     outline: none;
     border-radius: 5px;
     transition: 0.3s;
