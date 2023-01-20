@@ -78,6 +78,7 @@
     text-align: center;
     padding: 3vmin;
     height: 70%;
+    width: 90vmin;
     top: 45%;
     left: 50%;
     border-radius: 7px;
@@ -109,6 +110,7 @@
 
 .structChooser {
     height: 70%;
+    width: 95%;
     position: relative;
     display: flex;
     justify-content: center;
@@ -144,6 +146,7 @@
 }
 
 .structIcon {
+    width: 95%;
 }
 
 .text {
